@@ -15,6 +15,7 @@
     </div>
 
     <div id="wipeOverlay"></div>
+    <div id="wipeOverlayhorizontal"></div>
 
     <div id="sceneContainer">
         <div id="sky"></div>
@@ -24,7 +25,14 @@
         <div id="gridContainer">
             <svg id="perspectiveGrid" width="100%" height="100%" preserveAspectRatio="none"></svg>
         </div>
+
+        
+        <button id="sceneSubTitle" aria-label="Photomax title button">
+        Photomax!
+        </button>
     </div>
+
+    
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"></script>
 
@@ -34,8 +42,11 @@
         const wipe = document.getElementById('wipeOverlay');
         const sceneContainer = document.getElementById('sceneContainer');
         const svg = document.getElementById('perspectiveGrid');
+        const gbscreenmax = document.getElementById('gbscreenmax');
+        const wipehorizontal = document.getElementById('wipeOverlayhorizontal');
 
         const sceneTitle = document.getElementById('sceneTitle');
+        const sceneSubTitle = document.getElementById('sceneSubTitle');
 
         function buildGrid() {
             const width = window.innerWidth;
@@ -174,6 +185,13 @@
             ease: "power2.out"
         }, "0.5");
 
+        introTl.to(sceneSubTitle, {
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+            ease: "power2.out"
+        }, "0.5");
+
         horizontalLines.forEach((line) => {
             introTl.to(line.element, {
                 attr: line.final,
@@ -227,6 +245,33 @@
                 });
 
         }, { once: true }); // ensures the button can only be clicked once
+
+        sceneSubTitle.addEventListener('click', () => {
+            const masterT2 = gsap.timeline();
+
+            masterT2
+            .to(sceneContainer, {
+                autoAlpha: 0,
+                duration: 0.5
+            })
+            .to(wipehorizontal, {
+                    scaleX: 1,
+                    duration: 0.5,
+                    ease: "power2.inOut"
+                }, "-=0.2") // Overlap with fade out slightly
+                
+                // once screen is black, swap content
+                .set(sceneContainer, { display: 'none' })
+                .set(gbscreenmax, { display: 'block' })
+
+                 .to(wipehorizontal, {
+                    scaleX: 0,
+                    duration: 0.5,
+                    ease: "power2.inOut"
+                });
+
+
+        })
     </script>
 
 </body>
