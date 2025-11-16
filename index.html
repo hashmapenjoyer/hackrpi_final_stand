@@ -58,7 +58,8 @@
             </div>
 
             <div class="camera-screen">
-                <div class="camera-viewfinder">
+                <div class="camera-viewfinder" id="cameraViewfinder">
+                    <canvas id="imageCanvas"></canvas>
                 </div>
             </div>
 
@@ -68,6 +69,8 @@
                 <div class="camera-slider">
                     <div class="camera-slider-knob"></div>
                 </div>
+                <input type="file" id="imageUpload" accept="image/png,image/jpeg,image/gif">
+                <button id="downloadBtn">Download</button>
             </div>
             
             <div class="camera-bottom">
@@ -80,6 +83,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.min.js"></script>
 
     <script>
         const introContent = document.getElementById('introContent');
@@ -117,49 +121,49 @@
         });
 
         if (cameraSlider && cameraSliderKnob) {
-  let sliderDragging = false;
-  let sliderRect;
-  let knobRadius;
+            let sliderDragging = false;
+            let sliderRect;
+            let knobRadius;
 
-  function updateKnobPosition(evt) {
-    if (!sliderDragging) return;
+            function updateKnobPosition(evt) {
+                if (!sliderDragging) return;
 
-    const x = evt.clientX - sliderRect.left;
-    const min = knobRadius;
-    const max = sliderRect.width - knobRadius;
+                const x = evt.clientX - sliderRect.left;
+                const min = knobRadius;
+                const max = sliderRect.width - knobRadius;
 
-    const clamped = Math.max(min, Math.min(x, max));
+                const clamped = Math.max(min, Math.min(x, max));
 
-    // Center of knob follows the cursor
-    cameraSliderKnob.style.left = clamped + 'px';
+                // Center of knob follows the cursor
+                cameraSliderKnob.style.left = clamped + 'px';
 
-    // normalized value 0–1 to add function
-    const value = (clamped - min) / (max - min);
-    cameraSliderKnob.dataset.value = value.toFixed(2);
-  }
+                // normalized value 0–1 to add function
+                const value = (clamped - min) / (max - min);
+                cameraSliderKnob.dataset.value = value.toFixed(2);
+            }
 
-  function startSliderDrag(evt) {
-    evt.preventDefault();
-    sliderDragging = true;
-    sliderRect = cameraSlider.getBoundingClientRect();
-    knobRadius = cameraSliderKnob.offsetWidth / 2;
-    cameraSliderKnob.classList.add('dragging');
-    updateKnobPosition(evt);
-  }
+            function startSliderDrag(evt) {
+                evt.preventDefault();
+                sliderDragging = true;
+                sliderRect = cameraSlider.getBoundingClientRect();
+                knobRadius = cameraSliderKnob.offsetWidth / 2;
+                cameraSliderKnob.classList.add('dragging');
+                updateKnobPosition(evt);
+            }
 
-  function stopSliderDrag() {
-    if (!sliderDragging) return;
-    sliderDragging = false;
-    cameraSliderKnob.classList.remove('dragging');
-  }
+            function stopSliderDrag() {
+                if (!sliderDragging) return;
+                sliderDragging = false;
+                cameraSliderKnob.classList.remove('dragging');
+            }
 
-  cameraSliderKnob.addEventListener('pointerdown', startSliderDrag);
-  cameraSlider.addEventListener('pointerdown', startSliderDrag);
+            cameraSliderKnob.addEventListener('pointerdown', startSliderDrag);
+            cameraSlider.addEventListener('pointerdown', startSliderDrag);
 
-  window.addEventListener('pointermove', updateKnobPosition);
+            window.addEventListener('pointermove', updateKnobPosition);
 
-  window.addEventListener('pointerup', stopSliderDrag);
-}
+            window.addEventListener('pointerup', stopSliderDrag);
+        }
 
         const cameraDropTl = gsap.timeline({ paused: true })
             .set(cameraOverlay, { display: 'block'})
@@ -200,6 +204,44 @@
                 hideCamera();
             }
         }
+
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.getElementById('imageCanvas');
+                    const scaleFactor = Math.max(img.width / document.getElementById('cameraViewfinder').clientWidth,
+                        img.height / document.getElementById('cameraViewfinder').clientHeight);
+
+                    canvas.width = img.width / scaleFactor;
+                    canvas.height = img.height / scaleFactor;
+
+                    img.style.width = img.width / scaleFactor + 'px';
+                    img.style.height = img.height / scaleFactor + 'px';
+                    
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    
+                    // Initialize Caman
+                    Caman('#imageCanvas', function() {
+                        this.render();
+                    });
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const canvas = document.getElementById('imageCanvas');
+            const link = document.createElement('a');
+            link.download = 'edited-image.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
 
         function buildGrid() {
             const width = window.innerWidth;
@@ -536,7 +578,7 @@
                 renderer.render(scene, camera);
             }
             animate();
-    }
+        }
 
         sceneSubTitle.addEventListener('click', () => {
             const masterT2 = gsap.timeline();
@@ -547,26 +589,26 @@
                 duration: 0.5
             })
             .to(wipehorizontal, {
-                    scaleX: 1,
-                    duration: 0.5,
-                    ease: "power2.inOut"
-                }, "-=0.2") // Overlap with fade out slightly
-                
-                // once screen is black, swap content
-                .set(sceneContainer, { display: 'none' })
-                .set(landscapeScene, { display: 'block' })
-                .call(startlandscapeScene)
-                
-                 .to(wipehorizontal, {
-                    scaleX: 0,
-                    duration: 0.5,
-                    ease: "power2.inOut"
-                })
+                scaleX: 1,
+                duration: 0.5,
+                ease: "power2.inOut"
+            }, "-=0.2") // Overlap with fade out slightly
+            
+            // once screen is black, swap content
+            .set(sceneContainer, { display: 'none' })
+            .set(landscapeScene, { display: 'block' })
+            .call(startlandscapeScene)
+            
+            .to(wipehorizontal, {
+                scaleX: 0,
+                duration: 0.5,
+                ease: "power2.inOut"
+            })
 
-                .call(() => {
-                    document.addEventListener('click', handleCameraToggleClick);
-                });
+            .call(() => {
+                document.addEventListener('click', handleCameraToggleClick);
             });
+        });
     </script>
 
 </body>
