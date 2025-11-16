@@ -32,6 +32,18 @@ body, html {
   z-index: 100; /* must be on top of everything */
 }
 
+#wipeOverlayhorizontal {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  transform-origin: left center;
+  transform: scaleX(0); /* starts hidden */
+  z-index: 100; /* must be on top of everything */
+}
+
 #sceneContainer {
   position: relative;
   width: 100%;
@@ -98,3 +110,67 @@ body, html {
   opacity: 0;
   transform: scale(0.8);
 }
+
+#sceneSubTitle {
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  width: 100%;
+  text-align: left;
+  z-index: 2; /* in front of sky (1) */
+
+  /* make the button look like plain text */
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+
+  font-family: 'Press Start 2P', cursive;
+  font-size: 3vw;
+  color: #ff9d00;
+  letter-spacing: 0.5vw;
+
+  /* 3D blocky effect */
+  text-shadow:
+    /* bright glow */
+    0 0 8px #ff9d00,
+    0 0 12px #ff9d00,
+    
+    /* 3D extrusion (darker, offset shadow) */
+    1px 1px 0 #2000b0,
+    2px 2px 0 #2000b0,
+    3px 3px 0 #2000b0,
+    4px 4px 0 #2000b0,
+    5px 5px 0 #2000b0,
+    6px 6px 0 #2000b0;
+
+  /* start hidden for animation */
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+#clearAll {
+  position: absolute;
+  top: 25%;
+  left: 10%;
+  width: 100%;
+  text-align: left;
+  z-index: 2;
+  fill: none;
+}
+
+#gbscreenmax {
+  position: relative;        /* so the button can be positioned over the h1 */
+  display: inline-block;     /* shrink to fit content (optional) */
+}
+
+/* Invisible overlay button */
+#subtitleButton {
+  position: absolute;
+  inset: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
