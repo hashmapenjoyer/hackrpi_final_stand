@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Retro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+
+    <div id="introContent">
+        <h1>This is a Heading</h1>
+        <p>This is a paragraph. Press the button to start the scene.</p>
+        <button id="triggerWipe">Trigger Wipe</button>
+    </div>
+
+    <div id="wipeOverlay"></div>
+
+    <div id="sceneContainer">
+        <div id="sky"></div>
+
+        <h1 id="sceneTitle">YOUR TITLE</h1>
+
+        <div id="gridContainer">
+            <svg id="perspectiveGrid" width="100%" height="100%" preserveAspectRatio="none"></svg>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"></script>
+
+    <script>
+        const introContent = document.getElementById('introContent');
+        const triggerWipe = document.getElementById('triggerWipe');
+        const wipe = document.getElementById('wipeOverlay');
+        const sceneContainer = document.getElementById('sceneContainer');
+        const svg = document.getElementById('perspectiveGrid');
+
+        const sceneTitle = document.getElementById('sceneTitle');
+
+        function buildGrid() {
+            const width = window.innerWidth;
+            const height = window.innerHeight * 0.6; // Use 60% height of viewport (since container is 60%)
+            const horizonHeight = 0; // The container's 0 is the horizon
+
+            const vx = width / 2;
+            const vy = horizonHeight; 
+
+            const numVertical = 20;
+            const numHorizontal = 12;
+
+            const verticalLines = [];
+            const horizontalLines = [];
+
+            const overshoot = width * 1.5;
+            const leftBound = -overshoot;
+            const rightBound = width + overshoot;
+            
+            // vertical Lines
+            for (let i = 0; i <= numVertical; i++) {
+                const x = leftBound + ((rightBound - leftBound) / numVertical) * i;
+
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", x);
+                line.setAttribute("y1", height); 
+                line.setAttribute("x2", x);
+                line.setAttribute("y2", height);
+                svg.appendChild(line);
+
+                verticalLines.push({
+                    element: line,
+                    final: { x2: vx, y2: vy }
+                });
+            }
+
+            // horizontal lines
+            for (let j = 0; j < numHorizontal; j++) {
+                const t = j / numHorizontal;
+                const eased = Math.pow(t, 2);
+                const y = horizonHeight + (height - horizonHeight) * eased;
+
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                const startX = (j % 2 ? 0 : width);
+                line.setAttribute("x1", startX);
+                line.setAttribute("x2", startX);
+                line.setAttribute("y1", y);
+                line.setAttribute("y2", y);
+                svg.appendChild(line);
+
+                horizontalLines.push({
+                    element: line,
+                    final: { x1: 0, x2: width }
+                });
+            }
+
+            return [verticalLines, horizontalLines];
+        }
+
+        // animations
+
+        // 1. Build the grid animation timeline (paused)
+        const introTl = gsap.timeline({ paused: true });
+        const [verticalLines, horizontalLines] = buildGrid();
+
+        introTl.to(sceneTitle, {
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+            ease: "power2.out"
+        }, "0.5");
+
+        horizontalLines.forEach((line) => {
+            introTl.to(line.element, {
+                attr: line.final,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out"
+            }, "0.2");
+        });
+
+        verticalLines.forEach((line) => {
+            introTl.to(line.element, {
+                attr: line.final,
+                opacity: 1,
+                duration: 1,
+                ease: "power2.out"
+            }, "0.4");
+        });
+
+        // button
+        triggerWipe.addEventListener('click', () => {
+            
+            const masterTl = gsap.timeline();
+
+            masterTl
+                // fade out the original content
+                .to(introContent, { 
+                    autoAlpha: 0,
+                    duration: 0.5 
+                })
+                // wipe UP to cover the screen
+                .to(wipe, {
+                    scaleY: 1,
+                    duration: 0.5,
+                    ease: "power2.inOut"
+                }, "-=0.2") // Overlap with fade out slightly
+                
+                // once screen is black, swap content
+                .set(introContent, { display: 'none' })
+                .set(sceneContainer, { display: 'block' })
+                
+                // play grid animation
+                .call(() => {
+                    introTl.play();
+                })
+                
+                // wipe down to reveal the new scene
+                .to(wipe, {
+                    scaleY: 0,
+                    duration: 0.5,
+                    ease: "power2.inOut"
+                });
+
+        }, { once: true }); // ensures the button can only be clicked once
+    </script>
+
+</body>
+</html>
