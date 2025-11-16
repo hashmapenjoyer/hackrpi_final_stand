@@ -11,8 +11,18 @@
 <body>
 
     <div id="introContent">
-        <h1>header one</h1>
-        <button id="triggerWipe">button</button>
+        <h1>Welcome to our Super Duper Cool Project!</h1>
+        <button id="triggerWipe">buttonmaxer</button>
+        <button>ding button?</button>
+        <li>- cool page #1!!!</li>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <li>- cool page #2!!!</li>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <li>- cool page #3!!!</li>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <li>- cool page #4!!!</li>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <li>- cool page #5!!!</li>
     </div>
 
     <div id="wipeOverlay"></div>
@@ -40,6 +50,32 @@
         <canvas id="landscapeCanvas"></canvas>
     </div>
 
+    <div id="cameraOverlay">
+        <div class="camera-body">
+            <div class="camera-top">
+                <div class="camera-brand">Photomax</div>
+                <div class="camera-led"></div>
+            </div>
+
+            <div class="camera-screen">
+                <div class="camera-viewfinder">
+                </div>
+            </div>
+
+            <div class="camera-controls">
+                <div class="camera-button big"></div>
+                <div class="camera-button small"></div>
+                <div class="camera-slider">
+                    <div class="camera-slider-knob"></div>
+                </div>
+            </div>
+            
+            <div class="camera-bottom">
+                <div class="camera-inser"></div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -60,7 +96,110 @@
         const sun = document.getElementById('sun');
         const mountains = document.getElementById('mountains');
 
+        const cameraOverlay = document.getElementById('cameraOverlay');
+        const cameraButtons = document.querySelectorAll('.camera-button');
+        const cameraSlider = document.querySelector('.camera-slider');
+        const cameraSliderKnob = document.querySelector('.camera-slider-knob');
+
         let toggledTile = null;
+
+        let cameraIsVisible = false;
+
+        cameraButtons.forEach((btn) => {
+            if (!btn) return;
+
+            const press = () => btn.classList.add('pressed');
+            const release = () => btn.classList.remove('pressed');
+
+            btn.addEventListener('pointerdown', press);
+            btn.addEventListener('pointerup', release);
+            btn.addEventListener('pointerleave', release);
+        });
+
+        if (cameraSlider && cameraSliderKnob) {
+  let sliderDragging = false;
+  let sliderRect;
+  let knobRadius;
+
+  function updateKnobPosition(evt) {
+    if (!sliderDragging) return;
+
+    const x = evt.clientX - sliderRect.left;
+    const min = knobRadius;
+    const max = sliderRect.width - knobRadius;
+
+    const clamped = Math.max(min, Math.min(x, max));
+
+    // Center of knob follows the cursor
+    cameraSliderKnob.style.left = clamped + 'px';
+
+    // normalized value 0–1 to add function
+    const value = (clamped - min) / (max - min);
+    cameraSliderKnob.dataset.value = value.toFixed(2);
+  }
+
+  function startSliderDrag(evt) {
+    evt.preventDefault();
+    sliderDragging = true;
+    sliderRect = cameraSlider.getBoundingClientRect();
+    knobRadius = cameraSliderKnob.offsetWidth / 2;
+    cameraSliderKnob.classList.add('dragging');
+    updateKnobPosition(evt);
+  }
+
+  function stopSliderDrag() {
+    if (!sliderDragging) return;
+    sliderDragging = false;
+    cameraSliderKnob.classList.remove('dragging');
+  }
+
+  cameraSliderKnob.addEventListener('pointerdown', startSliderDrag);
+  cameraSlider.addEventListener('pointerdown', startSliderDrag);
+
+  window.addEventListener('pointermove', updateKnobPosition);
+
+  window.addEventListener('pointerup', stopSliderDrag);
+}
+
+        const cameraDropTl = gsap.timeline({ paused: true })
+            .set(cameraOverlay, { display: 'block'})
+            .to(cameraOverlay, {
+                y: '18vh', /* where the PHOTOMAXER stops */
+                autoAlpha: 1,
+                duration: 0.9,
+                ease: 'bounce.out'
+            });
+
+        function showCamera() {
+            if (cameraIsVisible) return;
+            cameraIsVisible = true;
+            cameraDropTl.play(0);
+        }
+
+        function hideCamera() {
+            if (!cameraIsVisible) return;
+            cameraIsVisible = false;
+
+            gsap.to(cameraOverlay, {
+                y: '-100%',
+                autoAlpha: 0,
+                duration: 0.6,
+                ease: 'power2.in',
+                onComplete: () => {
+                    gsap.set(cameraOverlay, { display: 'none' });
+                }
+            });
+        }
+
+        function handleCameraToggleClick(event) {
+            const clickedInsideCamera = cameraOverlay.contains(event.target);
+
+            if (!cameraIsVisible) {
+                showCamera();
+            } else if (!clickedInsideCamera) {
+                hideCamera();
+            }
+        }
 
         function buildGrid() {
             const width = window.innerWidth;
@@ -401,7 +540,7 @@
 
         sceneSubTitle.addEventListener('click', () => {
             const masterT2 = gsap.timeline();
-
+            /* photomax button pressermaxer */
             masterT2
             .to(sceneContainer, {
                 autoAlpha: 0,
@@ -417,15 +556,17 @@
                 .set(sceneContainer, { display: 'none' })
                 .set(landscapeScene, { display: 'block' })
                 .call(startlandscapeScene)
-
+                
                  .to(wipehorizontal, {
                     scaleX: 0,
                     duration: 0.5,
                     ease: "power2.inOut"
+                })
+
+                .call(() => {
+                    document.addEventListener('click', handleCameraToggleClick);
                 });
-
-
-        })
+            });
     </script>
 
 </body>
