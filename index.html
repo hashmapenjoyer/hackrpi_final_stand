@@ -13,7 +13,7 @@
     <div id="introContent">
         <h1>Welcome to our Super Duper Cool Project!</h1>
         <button id="triggerWipe">buttonmaxer</button>
-        <button>ding button?</button>
+        <button onClick="beep()">ding button?</button>
         <li>- cool page #1!!!</li>
         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
         <li>- cool page #2!!!</li>
@@ -208,30 +208,39 @@
         document.getElementById('imageUpload').addEventListener('change', function(e) {
             const file = e.target.files[0];
             const reader = new FileReader();
-            
+
             reader.onload = function(event) {
                 const img = new Image();
                 img.onload = function() {
+                    const viewfinder = document.getElementById('cameraViewfinder');
                     const canvas = document.getElementById('imageCanvas');
-                    const scaleFactor = Math.max(img.width / document.getElementById('cameraViewfinder').clientWidth,
-                        img.height / document.getElementById('cameraViewfinder').clientHeight);
 
-                    canvas.width = img.width / scaleFactor;
-                    canvas.height = img.height / scaleFactor;
+                    const vfW = viewfinder.clientWidth;
+                    const vfH = viewfinder.clientHeight;
 
-                    img.style.width = img.width / scaleFactor + 'px';
-                    img.style.height = img.height / scaleFactor + 'px';
-                    
+                    canvas.width = vfW;
+                    canvas.height = vfH;
+
+                    // Scale factor to fit
+                    const scaleFactor = Math.min(vfW / img.width, vfH / img.height);
+
+                    const scaledW = img.width * scaleFactor;
+                    const scaledH = img.height * scaleFactor;
+
+                    const offsetX = (vfW - scaledW) / 2;
+                    const offsetY = (vfH - scaledH) / 2;
+
                     const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0);
-                    
-                    // Initialize Caman
+                    ctx.clearRect(0, 0, vfW, vfH);
+                    ctx.drawImage(img, offsetX, offsetY, scaledW, scaledH);
+
                     Caman('#imageCanvas', function() {
                         this.render();
                     });
                 };
                 img.src = event.target.result;
             };
+
             reader.readAsDataURL(file);
         });
 
@@ -242,6 +251,14 @@
             link.href = canvas.toDataURL();
             link.click();
         });
+
+        function beep() {
+            console.log('beep');
+            const audio = new Audio('https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3');
+            audio.play();
+            alert('beep!!!!');
+        };
+
 
         function buildGrid() {
             const width = window.innerWidth;
