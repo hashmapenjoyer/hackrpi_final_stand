@@ -149,6 +149,20 @@ body, html {
   transform: scale(0.8);
 }
 
+#landscapeScene {
+  position: fixed;
+  inset: 0;
+  display: none;     /* only show after Photomax */
+  z-index: 1;
+  background: #000000; /* fallback while model loads */
+}
+
+#landscapeCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 #clearAll {
   position: absolute;
   top: 25%;
@@ -160,8 +174,8 @@ body, html {
 }
 
 #gbscreenmax {
-  position: relative;        /* so the button can be positioned over the h1 */
-  display: inline-block;     /* shrink to fit content (optional) */
+  position: relative;
+  display: inline-block;
 }
 
 /* Invisible overlay button */
