@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
@@ -19,7 +20,7 @@ body, html {
   cursor: pointer;
 }
 
-/* wipe overlay */
+/* wipe overlays */
 #wipeOverlay {
   position: fixed;
   left: 0;
@@ -44,6 +45,7 @@ body, html {
   z-index: 100; /* must be on top of everything */
 }
 
+/* MAIN LIFE MAXER SCENE */
 #sceneContainer {
   position: relative;
   width: 100%;
@@ -53,7 +55,8 @@ body, html {
   background-color: #111; /* Fallback for grid */
 }
 
-#sky, #gridContainer {
+#sky,
+#gridContainer {
   position: absolute;
   width: 100%;
   left: 0;
@@ -86,21 +89,18 @@ body, html {
   left: 0;
   width: 100%;
   text-align: center;
-  z-index: 7; /* in front of sky (1) */
+  z-index: 7; /* in front of sky */
   user-select: none;
 
-  font-family: 'Press Start 2P', cursive;
+  font-family: "Press Start 2P", cursive;
   font-size: 6vw;
-  color: #FF00FF;
+  color: #ff00ff;
   letter-spacing: 0.5vw;
 
   /* 3D blocky effect */
   text-shadow:
-    /* bright glow */
-    0 0 8px #FF00FF,
-    0 0 12px #FF00FF,
-    
-    /* 3D extrusion (darker, offset shadow) */
+    0 0 8px #ff00ff,
+    0 0 12px #ff00ff,
     1px 1px 0 #c700c7,
     2px 2px 0 #c700c7,
     3px 3px 0 #c700c7,
@@ -113,49 +113,84 @@ body, html {
   transform: scale(0.8);
 }
 
-#sceneSubTitle {
+/* Photomax + Profilemax title buttons (row + block underlay) */
+#sceneButtonRow {
   position: absolute;
   top: 30%;
   left: 10%;
-  width: 100%;
-  text-align: left;
-  z-index: 7; /* in front of sky (1) */
-  user-select: none;
+  width: 80%;
+  z-index: 7;
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+}
 
-  /* make the button look like plain text */
+/* Shared styles for the LIFE MAXER title buttons */
+#sceneSubTitle,
+#profileSceneTitle {
+  position: relative; /* needed for underlay */
   border: none;
-  background: none;
-  padding: 0;
+  background: transparent;
+  padding: 0.6rem 1.8rem;
   cursor: pointer;
 
-  font-family: 'Press Start 2P', cursive;
+  font-family: "Press Start 2P", cursive;
   font-size: 3vw;
-  color: #ff9d00;
   letter-spacing: 0.5vw;
+  user-select: none;
 
-  /* 3D blocky effect */
+  /* animation starting state (GSAP will animate these) */
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* Blocky underlay behind the text */
+#sceneSubTitle::before,
+#profileSceneTitle::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* fill the padded area */
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.65);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.9),
+    0 0 12px rgba(0, 0, 0, 0.8);
+  z-index: -1; /* sit behind the text */
+}
+
+/* Photomax! styling */
+#sceneSubTitle {
+  color: #ff9d00;
   text-shadow:
-    /* bright glow */
     0 0 8px #ff9d00,
     0 0 12px #ff9d00,
-    
-    /* 3D extrusion (darker, offset shadow) */
     1px 1px 0 #2000b0,
     2px 2px 0 #2000b0,
     3px 3px 0 #2000b0,
     4px 4px 0 #2000b0,
     5px 5px 0 #2000b0,
     6px 6px 0 #2000b0;
-
-  /* start hidden for animation */
-  opacity: 0;
-  transform: scale(0.8);
 }
 
+/* ProfileMaxer! styling */
+#profileSceneTitle {
+  color: #00faff;
+  text-shadow:
+    0 0 8px #00faff,
+    0 0 12px #00faff,
+    1px 1px 0 #2000b0,
+    2px 2px 0 #2000b0,
+    3px 3px 0 #2000b0,
+    4px 4px 0 #2000b0,
+    5px 5px 0 #2000b0,
+    6px 6px 0 #2000b0;
+}
+
+/* LANDSCAPE / 3D SCENE FOR PHOTOMAX */
 #landscapeScene {
   position: fixed;
   inset: 0;
-  display: none;     /* only show after Photomax */
+  display: none; /* only show after Photomax */
   z-index: 1;
   background: #000000; /* fallback while model loads */
 }
@@ -166,6 +201,7 @@ body, html {
   display: block;
 }
 
+/* Optional "clear" helper (if used) */
 #clearAll {
   position: absolute;
   top: 25%;
@@ -176,118 +212,427 @@ body, html {
   fill: none;
 }
 
+/* PROFILEMAX FULL-SCREEN SECTION */
 #gbscreenmax {
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(
+    circle at top,
+    #6d02c3 0,
+    #292651 40%,
+    #000000 85%
+  );
+  color: #f9fafb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Inter", sans-serif;
+  box-sizing: border-box;
+  display: none; /* JS will set to block when active */
+  padding: 32px;
   position: relative;
-  display: inline-block;
 }
 
-/* Invisible overlay button */
-#subtitleButton {
+.profile-back-btn {
   position: absolute;
-  inset: 0;
-  border: none;
-  background: none;
-  padding: 0;
+  top: 16px;
+  left: 16px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid #ff64c9;
+  background: rgba(15, 23, 42, 0.9);
+  color: #f9fafb;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
+.profile-back-btn:hover {
+  background: rgba(24, 35, 64, 0.95);
+  box-shadow: 0 0 12px rgba(255, 100, 201, 0.6);
+}
+
+.tiny-back-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(0, 0, 0, 0.55);
+  color: #f9fafb;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  opacity: 0.65;
+  z-index: 20;
+}
+
+.tiny-back-btn:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
+}
+
+/* === ProfileMax layout === */
+.profile-layout {
+  display: flex;
+  gap: 2.5rem;
+  height: 100%;
+  box-sizing: border-box;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+  .profile-layout {
+    flex-direction: column;
+    padding: 24px;
+  }
+}
+
+.profile-form {
+  flex: 1 1 320px;
+  max-width: 420px;
+}
+
+.profile-heading {
+  font-family: "Press Start 2P", cursive;
+  font-size: 18px;
+  margin: 0 0 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ff64c9;
+}
+
+.profile-subtext {
+  font-size: 13px;
+  color: #e5e7eb;
+  max-width: 420px;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.profile-field {
+  margin-bottom: 12px;
+}
+
+.profile-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #9ca3af;
+  margin-bottom: 4px;
+}
+
+.profile-input {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid #4b5563;
+  background: rgba(15, 23, 42, 0.95);
+  color: #f9fafb;
+  padding: 7px 12px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.profile-input::placeholder {
+  color: #9ca3af;
+}
+
+.profile-input:focus {
+  outline: none;
+  border-color: #ff64c9;
+  box-shadow: 0 0 0 1px rgba(255, 100, 201, 0.7);
+}
+
+.profile-row {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .profile-row {
+    flex-direction: column;
+  }
+}
+
+.profile-style-options {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.profile-style-options input {
+  margin-right: 4px;
+}
+
+.profile-export {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-copy-btn {
+  align-self: flex-start;
+  border-radius: 999px;
+  border: 1px solid #ff64c9;
+  background: radial-gradient(circle at top, #f6019d, #6d02c3);
+  color: #fdf2ff;
+  font-size: 12px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.profile-copy-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.profile-signature {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #4b5563;
+  background: rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
+  font-size: 12px;
+  padding: 6px 8px;
+  resize: none;
+  box-sizing: border-box;
+}
+
+/* PROFILE PREVIEW CARD */
+
+.profile-preview {
+  flex: 1 1 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 20px;
+  padding: 18px 20px;
+  box-sizing: border-box;
+  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
+}
+
+.profile-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.9);
+}
+
+/* retro style */
+.profile-card-retro {
+  background: radial-gradient(
+    circle at top left,
+    #200d3a 0,
+    #2e4770 50%,
+    #000000 90%
+  );
+  border: 1px solid #ff64c9;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.85);
+}
+
+/* modern style */
+.profile-card-modern {
+  background: rgba(3, 22, 52, 0.88);
+  border: 1px solid rgba(104, 250, 255, 0.7);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.9);
+}
+
+.profile-card-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profile-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background: conic-gradient(
+    from 200deg,
+    #f6019d,
+    #ff64c9,
+    #68faff,
+    #035ee8,
+    #f6019d
+  );
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-avatar span {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: #020617;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Press Start 2P", cursive;
+  font-size: 16px;
+}
+
+.profile-handle {
+  font-family: "Press Start 2P", cursive;
+  font-size: 12px;
+}
+
+.profile-tagline {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.profile-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 10px;
+}
+
+.profile-tag {
+  font-size: 11px;
+  border-radius: 999px;
+  padding: 2px 8px;
+  border: 1px solid rgba(104, 250, 255, 0.7);
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.95),
+    rgba(46, 71, 112, 0.9)
+  );
+}
+
+.profile-contact-row {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  font-size: 11px;
+}
+
+.profile-contact-label {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #9ca3af;
+}
+
+.profile-contact-text {
+  font-size: 12px;
+}
+
+/* === Retrowave grid tiles === */
 .retrowave-tile {
+  fill: transparent;
+  stroke: none;
+  cursor: pointer;
   transition: all 0.3s ease;
+  pointer-events: auto;
 }
 
 .tile-selected {
-  fill: rgba(0, 179, 255, 0.574) !important;
+  fill: rgba(0, 179, 255, 0.58) !important;
   stroke: #00faff !important;
   stroke-width: 2px !important;
-  filter:
-    drop-shadow(0 0 6px #FF00FF)
-    drop-shadow(0 0 10px #00faff);
+  filter: drop-shadow(0 0 6px #ff00ff) drop-shadow(0 0 10px #00faff);
   animation: tilePulse 2s ease-in-out infinite alternate;
 }
 
 @keyframes tilePulse {
   0% {
     stroke-width: 1px;
-    filter: 
-      drop-shadow(0 0 4px #FF00FF)
-      drop-shadow(0 0 8px #00faff);
+    filter: drop-shadow(0 0 4px #ff00ff) drop-shadow(0 0 8px #00faff);
   }
   100% {
     stroke-width: 3px;
-    filter: 
-      drop-shadow(0 0 10px #FF00FF)
-      drop-shadow(0 0 16px #00faff);
+    filter: drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 16px #00faff);
   }
 }
 
+/* === Retro sun & mountains for LIFE MAXER scene === */
 #sun {
-    position: absolute;
-    z-index: 2;
-    top: 33%;
-    left: 50%;
-    
-    width: 25vw;
-    height: 25vw;
-    max-width: 250px;
-    max-height: 250px;
-    
-    background: radial-gradient(circle, #ffe175, #ff8c00, #ff4500);
-    border-radius: 50%;
-    
-    /* glow */
-    box-shadow: 0 0 20px #ff4500, 0 0 40px #ff4500, 0 0 80px #ff8c00;
-    
-    overflow: hidden;
-
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
+  position: absolute;
+  z-index: 2;
+  top: 33%;
+  left: 50%;
+  width: 25vw;
+  height: 25vw;
+  max-width: 250px;
+  max-height: 250px;
+  background: radial-gradient(circle, #ffe175, #ff8c00, #ff4500);
+  border-radius: 50%;
+  box-shadow: 0 0 20px #ff4500, 0 0 40px #ff4500, 0 0 80px #ff8c00;
+  overflow: hidden;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
 }
 
 #sun::before {
-    content: '';
-    position: absolute;
-    left: -10%;
-    width: 120%;
-    height: 100%;
-    top: 0;
-    /* sun stripes */
-    background: linear-gradient(
-        to bottom,
-        transparent, transparent 25%,
-        #111 25%, #111 26%,
-        transparent 26%, transparent 32%,
-        #111 32%, #111 34%,
-        transparent 34%, transparent 40%,
-        #111 40%, #111 43%,
-        transparent 43%, transparent 49%,
-        #111 49%, #111 53%,
-        transparent 53%, transparent 58%,
-        #111 58%, #111 63%,
-        transparent 63%, transparent 69%,
-        #111 69%
-    );
-    z-index: 3;
+  content: "";
+  position: absolute;
+  left: -10%;
+  width: 120%;
+  height: 100%;
+  top: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    transparent 25%,
+    #111 25%,
+    #111 26%,
+    transparent 26%,
+    transparent 32%,
+    #111 32%,
+    #111 34%,
+    transparent 34%,
+    transparent 40%,
+    #111 40%,
+    #111 43%,
+    transparent 43%,
+    transparent 49%,
+    #111 49%,
+    #111 53%,
+    transparent 53%,
+    transparent 58%,
+    #111 58%,
+    #111 63%,
+    transparent 63%,
+    transparent 69%,
+    #111 69%
+  );
+  z-index: 3;
 }
 
 #mountains {
-    position: absolute;
-    z-index: 4;
-    top: 20%;
-    left: 0;
-    width: 100%;
-    height: 25%; /* how high they go */
-
-    opacity: 0;
-    transform: translateY(100%);
+  position: absolute;
+  z-index: 4;
+  top: 20%;
+  left: 0;
+  width: 100%;
+  height: 25%;
+  opacity: 0;
+  transform: translateY(100%);
 }
 
 #mountains path {
-    fill: #2a0e3f;
-    stroke: #FF00FF;
-    stroke-width: 2px;
+  fill: #2a0e3f;
+  stroke: #ff00ff;
+  stroke-width: 2px;
 }
 
-/* holy starting to make camera!! */
+/* === Photomax camera overlay styling === */
 #cameraOverlay {
   position: fixed;
   left: 50%;
@@ -308,17 +653,13 @@ body, html {
   border: 4px solid #101010;
   background-color: #131313;
   background-image:
-    /* left side */
     linear-gradient(180deg, #3c3c3c 0%, #202020 40%, #131313 100%) left / 35px 100% no-repeat,
-    /* right side */
     linear-gradient(180deg, #3c3c3c 0%, #202020 40%, #131313 100%) right / 35px 100% no-repeat,
-    /* top bar */
     linear-gradient(180deg, #3c3c3c 0%, #202020 40%, #131313 100%) top / 100% 58px no-repeat,
-    /* bottom bar */
     linear-gradient(180deg, #3c3c3c 0%, #202020 40%, #131313 100%) bottom / 100% 79px no-repeat;
   background-repeat: no-repeat;
   background-position: left center, right center, top center, bottom center;
-  background-size: 52px 100%, 52px 100%, 100% 58px, 100% 130px; /* left, right, top, bottom */
+  background-size: 52px 100%, 52px 100%, 100% 58px, 100% 130px;
   box-shadow:
     0 -8px 24px rgba(0, 0, 0, 0.6),
     0 0 0 1px rgba(255, 255, 255, 0.05);
@@ -327,8 +668,6 @@ body, html {
   gap: 12px;
 }
 
-/* Top area: logo + "LED" */
-
 .camera-top {
   display: flex;
   align-items: center;
@@ -336,7 +675,7 @@ body, html {
 }
 
 .camera-brand {
-  font-family: 'Press Start 2P', system-ui, sans-serif;
+  font-family: "Press Start 2P", system-ui, sans-serif;
   font-size: clamp(10px, 1.3vw, 12px);
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -351,8 +690,6 @@ body, html {
   background: radial-gradient(circle at 30% 30%, #ff6666, #2a0000);
   box-shadow: 0 0 8px rgba(255, 80, 80, 0.7);
 }
-
-/* Middle: the “screen / viewfinder” */
 
 .camera-screen {
   flex: 1;
@@ -380,8 +717,6 @@ body, html {
     0 0 10px rgba(0, 0, 0, 0.8);
 }
 
-/* Little crop marks inside the viewfinder */
-
 .vf-frame {
   position: absolute;
   left: 50%;
@@ -398,9 +733,6 @@ body, html {
 .vf-frame-bottom {
   bottom: 18%;
 }
-
-
-/* Bottom controls */
 
 .camera-controls {
   display: flex;
@@ -477,11 +809,8 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* dividing line between buttons and insert section */
   border-top: 2px solid rgba(5, 5, 5, 0.95);
-  box-shadow:
-    0 -1px 0 rgba(255, 255, 255, 0.08) inset;
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.08) inset;
 }
 
 .camera-inser {
@@ -495,9 +824,8 @@ body, html {
   position: relative;
 }
 
-/* optional inner lip / highlight to make it feel like a real slot */
 .camera-inser::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 12%;
   right: 12%;

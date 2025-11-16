@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Retro</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link href="styles.css" rel="stylesheet">
-    
-</head>
-<body>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link href="styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- INTRO SCREEN -->
     <div id="introContent">
         <h1>Welcome to our Super Duper Cool Project!</h1>
         <button id="triggerWipe">buttonmaxer</button>
@@ -25,58 +27,247 @@
         <li>- cool page #5!!!</li>
     </div>
 
+    <!-- WIPES -->
     <div id="wipeOverlay"></div>
     <div id="wipeOverlayhorizontal"></div>
 
+    <!-- MAIN LIFE MAXER SCENE -->
     <div id="sceneContainer">
-        <div id="sky"></div>
+      <div id="sky"></div>
 
-        <h1 id="sceneTitle">LIFE MAXER</h1>
+      <h1 id="sceneTitle">LIFE MAXER</h1>
 
-        <div id="sun"></div>
-        <svg id="mountains" width="100%" viewBox="0 0 1000 200" preserveAspectRatio="none">
-            <path d="M0,200 L0,150 C100,50 200,100 300,120 C400,140 500,80 600,100 C700,120 800,20 900,100 L1000,150 L1000,200 Z" />
-        </svg>
-        <div id="gridContainer">
-            <svg id="perspectiveGrid" width="100%" height="100%" preserveAspectRatio="none"></svg>
-        </div>
-        
+      <div id="sun"></div>
+      <svg
+        id="mountains"
+        width="100%"
+        viewBox="0 0 1000 200"
+        preserveAspectRatio="none"
+      >
+        <path
+          d="M0,200 L0,150 C100,50 200,100 300,120 C400,140 500,80 600,100 C700,120 800,20 900,100 L1000,150 L1000,200 Z"
+        />
+      </svg>
+
+      <div id="gridContainer">
+        <svg
+          id="perspectiveGrid"
+          width="100%"
+          height="100%"
+          preserveAspectRatio="none"
+        ></svg>
+      </div>
+
+      <!-- Row of buttons: Photomax + Profilemax -->
+      <div id="sceneButtonRow">
         <button id="sceneSubTitle" aria-label="Photomax title button">
-        Photomax!
+          Photomax!
         </button>
+
+        <button id="profileSceneTitle" aria-label="Profilemax title button">
+          Profilemax!
+        </button>
+      </div>
     </div>
 
+    <!-- PHOTOMAX LANDSCAPE SCENE -->
     <div id="landscapeScene">
-        <canvas id="landscapeCanvas"></canvas>
+      <!-- intentionally tiny / inconvenient back button -->
+      <button
+        id="backFromPhotomax"
+        class="tiny-back-btn"
+        type="button"
+      >
+        back to LIFE MAXER
+      </button>
+      <canvas id="landscapeCanvas"></canvas>
     </div>
 
+    <!-- PHOTOMAX CAMERA OVERLAY -->
     <div id="cameraOverlay">
-        <div class="camera-body">
-            <div class="camera-top">
-                <div class="camera-brand">Photomax</div>
-                <div class="camera-led"></div>
-            </div>
-
-            <div class="camera-screen">
-                <div class="camera-viewfinder" id="cameraViewfinder">
-                    <canvas id="imageCanvas"></canvas>
-                </div>
-            </div>
-
-            <div class="camera-controls">
-                <div class="camera-button big"></div>
-                <div class="camera-button small"></div>
-                <div class="camera-slider">
-                    <div class="camera-slider-knob"></div>
-                </div>
-                <input type="file" id="imageUpload" accept="image/png,image/jpeg,image/gif">
-                <button id="downloadBtn">Download</button>
-            </div>
-            
-            <div class="camera-bottom">
-                <div class="camera-inser"></div>
-            </div>
+      <div class="camera-body">
+        <div class="camera-top">
+          <div class="camera-brand">Photomax</div>
+          <div class="camera-led"></div>
         </div>
+
+        <div class="camera-screen">
+          <div class="camera-viewfinder" id="cameraViewfinder">
+            <canvas id="imageCanvas"></canvas>
+          </div>
+        </div>
+
+        <div class="camera-controls">
+          <div class="camera-button big"></div>
+          <div class="camera-button small"></div>
+          <div class="camera-slider">
+            <div class="camera-slider-knob"></div>
+          </div>
+          <input
+            type="file"
+            id="imageUpload"
+            accept="image/png,image/jpeg,image/gif"
+          />
+          <button id="downloadBtn">Download</button>
+        </div>
+
+        <div class="camera-bottom">
+          <div class="camera-inser"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILEMAX SCENE -->
+    <div id="gbscreenmax" style="display: none">
+      <button
+        id="backToHome"
+        class="tiny-back-btn profile-back-btn"
+        type="button"
+      >
+        ← Back to LIFE MAXER
+      </button>
+      <div class="profile-layout">
+        <!-- LEFT: form -->
+        <div class="profile-form">
+          <h2 class="profile-heading">Create your card</h2>
+          <p class="profile-subtext">
+            Pick a handle, vibe, and style. Your profile card updates in real
+            time.
+          </p>
+
+          <div class="profile-field">
+            <label class="profile-label">Handle / name</label>
+            <input
+              id="profileHandle"
+              class="profile-input"
+              type="text"
+              placeholder="goatlover_2007"
+            />
+          </div>
+
+          <div class="profile-field">
+            <label class="profile-label">Tagline</label>
+            <input
+              id="profileTagline"
+              class="profile-input"
+              type="text"
+              placeholder="live from hack night, pls send snacks"
+            />
+          </div>
+
+          <div class="profile-row">
+            <div class="profile-field">
+              <label class="profile-label">Mood</label>
+              <select id="profileMood" class="profile-input">
+                <option value="chill">chill</option>
+                <option value="chaotic">chaotic</option>
+                <option value="focused">focused</option>
+                <option value="nostalgic">nostalgic</option>
+                <option value="sleepy">sleepy</option>
+                <option value="overcaffeinated">overcaffeinated</option>
+                <option value="hyperfocused">hyperfocused</option>
+                <option value="social">social</option>
+              </select>
+            </div>
+            <div class="profile-field">
+              <label class="profile-label">Era</label>
+              <select id="profileEra" class="profile-input">
+                <option value="90s">90s</option>
+                <option value="2000s">2000s</option>
+                <option value="Y2K" selected>Y2K</option>
+                <option value="2010s">2010s</option>
+                <option value="Today">Today</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="profile-field">
+            <label class="profile-label">Profile style</label>
+            <div class="profile-style-options">
+              <label>
+                <input type="radio" name="profileStyle" value="retro" checked />
+                Retro
+              </label>
+              <label>
+                <input type="radio" name="profileStyle" value="modern" />
+                Modern
+              </label>
+            </div>
+          </div>
+
+          <div class="profile-field">
+            <label class="profile-label">Contact / link</label>
+            <input
+              id="profileContact"
+              class="profile-input"
+              type="text"
+              placeholder="https://your-site.com or email"
+            />
+          </div>
+
+          <div class="profile-export">
+            <button id="copySignature" class="profile-copy-btn" type="button">
+              Copy text signature
+            </button>
+            <textarea
+              id="signatureOutput"
+              class="profile-signature"
+              rows="3"
+              readonly
+            ></textarea>
+          </div>
+
+          <div class="profile-field">
+            <label class="profile-label">Shareable link</label>
+            <button id="generateLink" type="button" class="profile-copy-btn">
+              Generate link
+            </button>
+            <input
+              id="shareLinkOutput"
+              class="profile-input"
+              type="text"
+              readonly
+              placeholder="click Generate link"
+              style="margin-top: 6px"
+            />
+          </div>
+          <!-- Future: QR code for the profile card -->
+          <!-- <button id="generateQr" type="button" class="profile-copy-btn">
+            (future) Generate QR
+          </button> -->
+        </div>
+
+        <!-- RIGHT: card preview -->
+        <div class="profile-preview">
+          <div id="profileCard" class="profile-card profile-card-retro">
+            <div class="profile-card-header">
+              <div class="profile-avatar">
+                <span id="profileAvatarInitial">G</span>
+              </div>
+              <div>
+                <div id="profileHandlePreview" class="profile-handle">
+                  @guest_user
+                </div>
+                <div id="profileTaglinePreview" class="profile-tagline">
+                  live from the retro web, brb customizing my profile
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-tags">
+              <span id="profileMoodTag" class="profile-tag">mood: chill</span>
+              <span id="profileEraTag" class="profile-tag">era: Y2K</span>
+            </div>
+
+            <div class="profile-contact-row">
+              <span class="profile-contact-label">contact:</span>
+              <span id="profileContactPreview" class="profile-contact-text">
+                add a link or email
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"></script>
@@ -86,171 +277,175 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.min.js"></script>
 
     <script>
-        const introContent = document.getElementById('introContent');
-        const triggerWipe = document.getElementById('triggerWipe');
-        const wipe = document.getElementById('wipeOverlay');
-        const sceneContainer = document.getElementById('sceneContainer');
-        const svg = document.getElementById('perspectiveGrid');
-        const gbscreenmax = document.getElementById('gbscreenmax');
-        const wipehorizontal = document.getElementById('wipeOverlayhorizontal');
-        const landscapeScene = document.getElementById('landscapeScene');
+      // ===== DOM ELEMENTS =====
+      const introContent = document.getElementById("introContent");
+      const triggerWipe = document.getElementById("triggerWipe");
+      const wipe = document.getElementById("wipeOverlay");
+      const sceneContainer = document.getElementById("sceneContainer");
+      const svg = document.getElementById("perspectiveGrid");
+      const gbscreenmax = document.getElementById("gbscreenmax");
+      const wipehorizontal = document.getElementById("wipeOverlayhorizontal");
+      const landscapeScene = document.getElementById("landscapeScene");
 
-        const sceneTitle = document.getElementById('sceneTitle');
-        const sceneSubTitle = document.getElementById('sceneSubTitle');
-        const sun = document.getElementById('sun');
-        const mountains = document.getElementById('mountains');
+      const sceneTitle = document.getElementById("sceneTitle");
+      const sceneSubTitle = document.getElementById("sceneSubTitle");
+      const profileSceneTitle = document.getElementById("profileSceneTitle");
+      const sun = document.getElementById("sun");
+      const mountains = document.getElementById("mountains");
 
-        const cameraOverlay = document.getElementById('cameraOverlay');
-        const cameraButtons = document.querySelectorAll('.camera-button');
-        const cameraSlider = document.querySelector('.camera-slider');
-        const cameraSliderKnob = document.querySelector('.camera-slider-knob');
+      const cameraOverlay = document.getElementById("cameraOverlay");
+      const cameraButtons = document.querySelectorAll(".camera-button");
+      const cameraSlider = document.querySelector(".camera-slider");
+      const cameraSliderKnob = document.querySelector(".camera-slider-knob");
 
-        let toggledTile = null;
+      let toggledTile = null;
+      let cameraIsVisible = false;
 
-        let cameraIsVisible = false;
+      // ===== CAMERA BUTTON + SLIDER INTERACTIONS (Photomax) =====
+      cameraButtons.forEach((btn) => {
+        if (!btn) return;
 
-        cameraButtons.forEach((btn) => {
-            if (!btn) return;
+        const press = () => btn.classList.add("pressed");
+        const release = () => btn.classList.remove("pressed");
 
-            const press = () => btn.classList.add('pressed');
-            const release = () => btn.classList.remove('pressed');
+        btn.addEventListener("pointerdown", press);
+        btn.addEventListener("pointerup", release);
+        btn.addEventListener("pointerleave", release);
+      });
 
-            btn.addEventListener('pointerdown', press);
-            btn.addEventListener('pointerup', release);
-            btn.addEventListener('pointerleave', release);
+      if (cameraSlider && cameraSliderKnob) {
+        let sliderDragging = false;
+        let sliderRect;
+        let knobRadius;
+
+        function updateKnobPosition(evt) {
+          if (!sliderDragging) return;
+
+          const x = evt.clientX - sliderRect.left;
+          const min = knobRadius;
+          const max = sliderRect.width - knobRadius;
+
+          const clamped = Math.max(min, Math.min(x, max));
+
+          cameraSliderKnob.style.left = clamped + "px";
+
+          const value = (clamped - min) / (max - min);
+          cameraSliderKnob.dataset.value = value.toFixed(2);
+        }
+
+        function startSliderDrag(evt) {
+          evt.preventDefault();
+          sliderDragging = true;
+          sliderRect = cameraSlider.getBoundingClientRect();
+          knobRadius = cameraSliderKnob.offsetWidth / 2;
+          cameraSliderKnob.classList.add("dragging");
+          updateKnobPosition(evt);
+        }
+
+        function stopSliderDrag() {
+          if (!sliderDragging) return;
+          sliderDragging = false;
+          cameraSliderKnob.classList.remove("dragging");
+        }
+
+        cameraSliderKnob.addEventListener("pointerdown", startSliderDrag);
+        cameraSlider.addEventListener("pointerdown", startSliderDrag);
+
+        window.addEventListener("pointermove", updateKnobPosition);
+        window.addEventListener("pointerup", stopSliderDrag);
+      }
+
+      const cameraDropTl = gsap
+        .timeline({ paused: true })
+        .set(cameraOverlay, { display: "block" })
+        .to(cameraOverlay, {
+          y: "18vh",
+          autoAlpha: 1,
+          duration: 0.9,
+          ease: "bounce.out",
         });
 
-        if (cameraSlider && cameraSliderKnob) {
-            let sliderDragging = false;
-            let sliderRect;
-            let knobRadius;
+      function showCamera() {
+        if (cameraIsVisible) return;
+        cameraIsVisible = true;
+        cameraDropTl.play(0);
+      }
 
-            function updateKnobPosition(evt) {
-                if (!sliderDragging) return;
+      function hideCamera() {
+        if (!cameraIsVisible) return;
+        cameraIsVisible = false;
 
-                const x = evt.clientX - sliderRect.left;
-                const min = knobRadius;
-                const max = sliderRect.width - knobRadius;
+        gsap.to(cameraOverlay, {
+          y: "-100%",
+          autoAlpha: 0,
+          duration: 0.6,
+          ease: "power2.in",
+          onComplete: () => {
+            gsap.set(cameraOverlay, { display: "none" });
+          },
+        });
+      }
 
-                const clamped = Math.max(min, Math.min(x, max));
+      function handleCameraToggleClick(event) {
+        const clickedInsideCamera = cameraOverlay.contains(event.target);
 
-                // Center of knob follows the cursor
-                cameraSliderKnob.style.left = clamped + 'px';
-
-                // normalized value 0–1 to add function
-                const value = (clamped - min) / (max - min);
-                cameraSliderKnob.dataset.value = value.toFixed(2);
-            }
-
-            function startSliderDrag(evt) {
-                evt.preventDefault();
-                sliderDragging = true;
-                sliderRect = cameraSlider.getBoundingClientRect();
-                knobRadius = cameraSliderKnob.offsetWidth / 2;
-                cameraSliderKnob.classList.add('dragging');
-                updateKnobPosition(evt);
-            }
-
-            function stopSliderDrag() {
-                if (!sliderDragging) return;
-                sliderDragging = false;
-                cameraSliderKnob.classList.remove('dragging');
-            }
-
-            cameraSliderKnob.addEventListener('pointerdown', startSliderDrag);
-            cameraSlider.addEventListener('pointerdown', startSliderDrag);
-
-            window.addEventListener('pointermove', updateKnobPosition);
-
-            window.addEventListener('pointerup', stopSliderDrag);
+        if (!cameraIsVisible) {
+          showCamera();
+        } else if (!clickedInsideCamera) {
+          hideCamera();
         }
+      }
 
-        const cameraDropTl = gsap.timeline({ paused: true })
-            .set(cameraOverlay, { display: 'block'})
-            .to(cameraOverlay, {
-                y: '18vh', /* where the PHOTOMAXER stops */
-                autoAlpha: 1,
-                duration: 0.9,
-                ease: 'bounce.out'
-            });
+    document.getElementById('imageUpload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
 
-        function showCamera() {
-            if (cameraIsVisible) return;
-            cameraIsVisible = true;
-            cameraDropTl.play(0);
-        }
+        reader.onload = function(event) {
+            const img = new Image();
+            img.onload = function() {
+                const viewfinder = document.getElementById('cameraViewfinder');
+                const canvas = document.getElementById('imageCanvas');
 
-        function hideCamera() {
-            if (!cameraIsVisible) return;
-            cameraIsVisible = false;
+                const vfW = viewfinder.clientWidth;
+                const vfH = viewfinder.clientHeight;
 
-            gsap.to(cameraOverlay, {
-                y: '-100%',
-                autoAlpha: 0,
-                duration: 0.6,
-                ease: 'power2.in',
-                onComplete: () => {
-                    gsap.set(cameraOverlay, { display: 'none' });
-                }
-            });
-        }
+                canvas.width = vfW;
+                canvas.height = vfH;
 
-        function handleCameraToggleClick(event) {
-            const clickedInsideCamera = cameraOverlay.contains(event.target);
+                // Scale factor to fit
+                const scaleFactor = Math.min(vfW / img.width, vfH / img.height);
 
-            if (!cameraIsVisible) {
-                showCamera();
-            } else if (!clickedInsideCamera) {
-                hideCamera();
-            }
-        }
+                const scaledW = img.width * scaleFactor;
+                const scaledH = img.height * scaleFactor;
 
-        document.getElementById('imageUpload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            const reader = new FileReader();
+                const offsetX = (vfW - scaledW) / 2;
+                const offsetY = (vfH - scaledH) / 2;
 
-            reader.onload = function(event) {
-                const img = new Image();
-                img.onload = function() {
-                    const viewfinder = document.getElementById('cameraViewfinder');
-                    const canvas = document.getElementById('imageCanvas');
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, vfW, vfH);
+                ctx.drawImage(img, offsetX, offsetY, scaledW, scaledH);
 
-                    const vfW = viewfinder.clientWidth;
-                    const vfH = viewfinder.clientHeight;
-
-                    canvas.width = vfW;
-                    canvas.height = vfH;
-
-                    // Scale factor to fit
-                    const scaleFactor = Math.min(vfW / img.width, vfH / img.height);
-
-                    const scaledW = img.width * scaleFactor;
-                    const scaledH = img.height * scaleFactor;
-
-                    const offsetX = (vfW - scaledW) / 2;
-                    const offsetY = (vfH - scaledH) / 2;
-
-                    const ctx = canvas.getContext('2d');
-                    ctx.clearRect(0, 0, vfW, vfH);
-                    ctx.drawImage(img, offsetX, offsetY, scaledW, scaledH);
-
-                    Caman('#imageCanvas', function() {
-                        this.render();
-                    });
-                };
-                img.src = event.target.result;
+                Caman('#imageCanvas', function() {
+                    this.render();
+                });
             };
+            img.src = event.target.result;
+        };
 
-            reader.readAsDataURL(file);
-        });
+        reader.readAsDataURL(file);
+    });
 
-        document.getElementById('downloadBtn').addEventListener('click', function() {
-            const canvas = document.getElementById('imageCanvas');
-            const link = document.createElement('a');
-            link.download = 'edited-image.png';
-            link.href = canvas.toDataURL();
-            link.click();
+      if (downloadBtn) {
+        downloadBtn.addEventListener("click", function () {
+          const canvas = document.getElementById("imageCanvas");
+          if (!canvas) return;
+
+          const link = document.createElement("a");
+          link.download = "edited-image.png";
+          link.href = canvas.toDataURL();
+          link.click();
         });
+      }
 
         function beep() {
             console.log('beep');
@@ -260,373 +455,694 @@
         };
 
 
-        function buildGrid() {
-            const width = window.innerWidth;
-            const height = window.innerHeight * 0.6; // Use 60% height of viewport (since container is 60%)
-            const horizonHeight = 0; // The container's 0 is the horizon
+      // ===== RETROWAVE GRID BUILDING =====
+      function buildGrid() {
+        const width = window.innerWidth;
+        const height = window.innerHeight * 0.6;
+        const horizonHeight = 0;
 
-            const vx = width / 2;
-            const vy = horizonHeight; 
+        const vx = width / 2;
+        const vy = horizonHeight;
 
-            const numVertical = 20;
-            const numHorizontal = 12;
+        const numVertical = 20;
+        const numHorizontal = 12;
 
-            const verticalLines = [];
-            const horizontalLines = [];
+        const verticalLines = [];
+        const horizontalLines = [];
 
-            const overshoot = width * 1.5;
-            const leftBound = -overshoot;
-            const rightBound = width + overshoot;
-            
-            for (let i = 0; i <= numVertical; i++) {
-                const x = leftBound + ((rightBound - leftBound) / numVertical) * i;
+        const overshoot = width * 1.5;
+        const leftBound = -overshoot;
+        const rightBound = width + overshoot;
 
-                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                line.setAttribute("x1", x);
-                line.setAttribute("y1", height); 
-                line.setAttribute("x2", x);
-                line.setAttribute("y2", height);
-                svg.appendChild(line);
+        for (let i = 0; i <= numVertical; i++) {
+          const x = leftBound + ((rightBound - leftBound) / numVertical) * i;
 
-                verticalLines.push({
-                    element: line,
-                    final: { x2: vx, y2: vy },
-                    old: { x1: x, y1: height, x2: x, y2: height}
-                });
-            }
+          const line = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line"
+          );
+          line.setAttribute("x1", x);
+          line.setAttribute("y1", height);
+          line.setAttribute("x2", x);
+          line.setAttribute("y2", height);
+          svg.appendChild(line);
 
-            for (let j = 0; j < numHorizontal; j++) {
-                const t = j / (numHorizontal - 1);
-                
-                // this is some super bullshit btw
-                const perspectiveFactor = 0.8;
-                const eased = Math.pow(1 - t, 1 + perspectiveFactor * 2);
-                
-                const y = horizonHeight + (height - horizonHeight) * eased;
-
-                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                const startX = (j % 2 ? 0 : width);
-                line.setAttribute("x1", startX);
-                line.setAttribute("x2", startX);
-                line.setAttribute("y1", y);
-                line.setAttribute("y2", y);
-                svg.appendChild(line);
-
-                horizontalLines.push({
-                    element: line,
-                    final: { x1: 0, x2: width },
-                    old: { x1: startX, y1: y, x2: startX, y2: y}
-                });
-            }
-
-            return [verticalLines, horizontalLines];
+          verticalLines.push({
+            element: line,
+            final: { x2: vx, y2: vy },
+            old: { x1: x, y1: height, x2: x, y2: height },
+          });
         }
 
-        function getIntersection(vLine, hLine) {
-            const vLine_is_vertical = vLine.old.x1 === vLine.final.x2;
-            if (vLine_is_vertical) {
-                return { x: vLine.old.x1, y: hLine.old.y1 }
-            }
+        for (let j = 0; j < numHorizontal; j++) {
+          const t = j / (numHorizontal - 1);
+          const perspectiveFactor = 0.8;
+          const eased = Math.pow(1 - t, 1 + perspectiveFactor * 2);
 
-            const vLine_is_horizontal = vLine.old.y1 === vLine.final.y2;
-            if (vLine_is_horizontal) {
-                //should only be possible if I really mess up generation but whatever
-                console.error('vertical grid line is horizontal somehow??')
-                return { x: 0, y: 0 }
-            }
+          const y = horizonHeight + (height - horizonHeight) * eased;
 
-            const m = (vLine.final.y2 - vLine.old.y1) / (vLine.final.x2 - vLine.old.x1);
+          const line = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line"
+          );
+          const startX = j % 2 ? 0 : width;
+          line.setAttribute("x1", startX);
+          line.setAttribute("x2", startX);
+          line.setAttribute("y1", y);
+          line.setAttribute("y2", y);
+          svg.appendChild(line);
 
-            // (intersection_y - y2) = m * (intersection_x - x2)
-            // intersection_x = (intersection_y - y2) / m + x2
-            const x_intersection = vLine.final.x2 + (hLine.old.y1 - vLine.final.y2) / m
-
-            return { x: x_intersection, y: hLine.old.y1 }
-        }
-        
-        function buildClickableLayer(hLines, vLines) {
-            for (let j = 0; j < hLines.length - 1; j++) {
-                for (let i = 0; i < vLines.length - 1; i++) {
-                    // get the 4 lines that define this tile
-                    const vLine1 = vLines[i];
-                    const vLine2 = vLines[i+1];
-                    const hLine1 = hLines[j];
-                    const hLine2 = hLines[j+1];
-
-                    // calculate the 4 corner points of the polygon
-                    const p1 = getIntersection(vLine1, hLine1);
-                    const p2 = getIntersection(vLine2, hLine1);
-                    const p3 = getIntersection(vLine2, hLine2);
-                    const p4 = getIntersection(vLine1, hLine2);
-
-                    // create the polygon element
-                    const poly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-                    poly.setAttribute('points', 
-                        `${p1.x},${p1.y} ${p2.x},${p2.y} ${p3.x},${p3.y} ${p4.x},${p4.y}`
-                    );
-                    
-                    poly.setAttribute('class', 'retrowave-tile');
-                    poly.setAttribute('fill', 'transparent');
-                    poly.setAttribute('stroke', 'none');
-                    poly.style.cursor = 'pointer';
-
-                    // store tile data for debugging
-                    poly.setAttribute('data-row', j);
-                    poly.setAttribute('data-col', i);
-
-                    poly.addEventListener('click', (e) => {
-                        e.target.classList.toggle('tile-selected');
-                    });
-
-                    if (i === 8 && j === 3) {
-                        toggledTile = poly;
-                    }
-
-                    svg.appendChild(poly);
-                }
-            }
+          horizontalLines.push({
+            element: line,
+            final: { x1: 0, x2: width },
+            old: { x1: startX, y1: y, x2: startX, y2: y },
+          });
         }
 
-        // animations
+        return [verticalLines, horizontalLines];
+      }
 
-        // build the grid animation timeline (paused)
-        const introTl = gsap.timeline({ paused: true });
-        const [verticalLines, horizontalLines] = buildGrid();
-        buildClickableLayer(horizontalLines, verticalLines);
+      function getIntersection(vLine, hLine) {
+        const vLine_is_vertical = vLine.old.x1 === vLine.final.x2;
+        if (vLine_is_vertical) {
+          return { x: vLine.old.x1, y: hLine.old.y1 };
+        }
 
-        introTl.to(sun, {
+        const vLine_is_horizontal = vLine.old.y1 === vLine.final.y2;
+        if (vLine_is_horizontal) {
+          console.error("vertical grid line is horizontal somehow??");
+          return { x: 0, y: 0 };
+        }
+
+        const m =
+          (vLine.final.y2 - vLine.old.y1) / (vLine.final.x2 - vLine.old.x1);
+
+        const x_intersection =
+          vLine.final.x2 + (hLine.old.y1 - vLine.final.y2) / m;
+
+        return { x: x_intersection, y: hLine.old.y1 };
+      }
+
+      function buildClickableLayer(hLines, vLines) {
+        for (let j = 0; j < hLines.length - 1; j++) {
+          for (let i = 0; i < vLines.length - 1; i++) {
+            const vLine1 = vLines[i];
+            const vLine2 = vLines[i + 1];
+            const hLine1 = hLines[j];
+            const hLine2 = hLines[j + 1];
+
+            const p1 = getIntersection(vLine1, hLine1);
+            const p2 = getIntersection(vLine2, hLine1);
+            const p3 = getIntersection(vLine2, hLine2);
+            const p4 = getIntersection(vLine1, hLine2);
+
+            const poly = document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "polygon"
+            );
+            poly.setAttribute(
+              "points",
+              `${p1.x},${p1.y} ${p2.x},${p2.y} ${p3.x},${p3.y} ${p4.x},${p4.y}`
+            );
+
+            poly.setAttribute("class", "retrowave-tile");
+            poly.setAttribute("fill", "transparent");
+            poly.setAttribute("stroke", "none");
+            poly.style.cursor = "pointer";
+
+            poly.setAttribute("data-row", j);
+            poly.setAttribute("data-col", i);
+
+            poly.addEventListener("click", (e) => {
+              e.target.classList.toggle("tile-selected");
+            });
+
+            if (i === 8 && j === 3) {
+              toggledTile = poly;
+            }
+
+            svg.appendChild(poly);
+          }
+        }
+      }
+
+      // ===== INTRO TIMELINE =====
+      const introTl = gsap.timeline({ paused: true });
+      const [verticalLines, horizontalLines] = buildGrid();
+      buildClickableLayer(horizontalLines, verticalLines);
+
+      if (sun) {
+        introTl.to(
+          sun,
+          {
             scale: 1,
             opacity: 1,
             duration: 1.5,
-            ease: "power2.out"
-        }, "0.3");
+            ease: "power2.out",
+          },
+          "0.3"
+        );
+      }
 
-        introTl.to(sceneTitle, {
-            opacity: 1,
-            scale: 1,
-            duration: 1.5,
-            ease: "power2.out"
-        }, "0.5");
+      introTl.to(
+        sceneTitle,
+        {
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+        },
+        "0.2"
+      );
 
-        introTl.to(sceneSubTitle, {
-            opacity: 1,
-            scale: 1,
-            duration: 1.5,
-            ease: "power2.out"
-        }, "0.5");
-
-        introTl.to(mountains, {
+      if (mountains) {
+        introTl.to(
+          mountains,
+          {
             opacity: 0.7,
-            y: 0, /* Animates from transform: translateY(100%) to 0 */
+            y: 0,
             duration: 1.2,
-            ease: "power1.out"
-        }, "0.6");
+            ease: "power1.out",
+          },
+          "0.6"
+        );
+      }
 
-        horizontalLines.forEach((line) => {
-            introTl.to(line.element, {
-                attr: line.final,
-                opacity: 1,
-                duration: 1,
-                ease: "power3.out"
-            }, "0.2");
-        });
+      // Animate Photomax & Profilemax buttons
+      if (sceneSubTitle) {
+        introTl.fromTo(
+          sceneSubTitle,
+          { opacity: 0, scale: 0.8 },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+            ease: "power2.out",
+          },
+          "0.5"
+        );
+      }
 
-        verticalLines.forEach((line) => {
-            introTl.to(line.element, {
-                attr: line.final,
-                opacity: 1,
-                duration: 1,
-                ease: "power2.out"
-            }, "0.4");
-        });
+      if (profileSceneTitle) {
+        introTl.fromTo(
+          profileSceneTitle,
+          { opacity: 0, scale: 0.8 },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+            ease: "power2.out",
+          },
+          "0.5"
+        );
+      }
 
-        // button
-        triggerWipe.addEventListener('click', () => {
-            
+      horizontalLines.forEach((line) => {
+        introTl.to(
+          line.element,
+          {
+            attr: line.final,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+          },
+          "0.2"
+        );
+      });
+
+      verticalLines.forEach((line) => {
+        introTl.to(
+          line.element,
+          {
+            attr: line.final,
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out",
+          },
+          "0.4"
+        );
+      });
+
+      // Intro → LIFE MAXER scene
+      if (triggerWipe) {
+        triggerWipe.addEventListener(
+          "click",
+          () => {
             const masterTl = gsap.timeline();
 
             masterTl
-                // fade out the original content
-                .to(introContent, { 
-                    autoAlpha: 0,
-                    duration: 0.5 
-                })
-                // wipe UP to cover the screen
-                .to(wipe, {
-                    scaleY: 1,
-                    duration: 0.5,
-                    ease: "power2.inOut"
-                }, "-=0.2") // Overlap with fade out slightly
-                
-                // once screen is black, swap content
-                .set(introContent, { display: 'none' })
-                .set(sceneContainer, { display: 'block' })
-                
-                // play grid animation
-                .call(() => {
-                    introTl.play();
-                })
-                
-                // wipe down to reveal the new scene
-                .to(wipe, {
-                    scaleY: 0,
-                    duration: 0.5,
-                    ease: "power2.inOut"
-                });
+              .to(introContent, {
+                autoAlpha: 0,
+                duration: 0.5,
+              })
+              .to(
+                wipe,
+                {
+                  scaleY: 1,
+                  duration: 0.5,
+                  ease: "power2.inOut",
+                },
+                "-=0.2"
+              )
+              .set(introContent, { display: "none" })
+              .set(sceneContainer, { display: "block" })
+              .call(() => {
+                introTl.play();
+              })
+              .to(wipe, {
+                scaleY: 0,
+                duration: 0.5,
+                ease: "power2.inOut",
+              });
+          },
+          { once: true }
+        );
+      }
 
-        }, { once: true }); // ensures the button can only be clicked once
+      // ===== PHOTOMAX LANDSCAPE + 3D SCENE =====
+      let landscapeSceneInitialized = false;
 
+      function startlandscapeScene() {
+        if (landscapeSceneInitialized) return;
+        landscapeSceneInitialized = true;
 
-        let landscapeSceneInitialized = false;
+        const canvas = document.getElementById("landscapeCanvas");
+        if (!canvas) return;
 
-        function startlandscapeScene() {
-            if (landscapeSceneInitialized) return;
-            landscapeSceneInitialized = true;
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xbdf1ff);
 
-            const canvas = document.getElementById('landscapeCanvas');
+        const camera = new THREE.PerspectiveCamera(
+          45,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        camera.position.set(0, 15, 100);
 
-            // Basic Three.js setup
-            const scene = new THREE.Scene();   
-            scene.background = new THREE.Color(0xBDF1FF);
+        const renderer = new THREE.WebGLRenderer({
+          canvas,
+          antialias: true,
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            const camera = new THREE.PerspectiveCamera(
-                45,
-                window.innerWidth / window.innerHeight,
-                0.1,
-                1000
-            );
-            camera.position.set(0, 15, 100);
+        const controls = new THREE.OrbitControls(
+          camera,
+          renderer.domElement
+        );
+        controls.enableDamping = true;
+        controls.enablePan = false;
+        controls.zoomSpeed = 0.5;
+        controls.rotateSpeed = 0.6;
+        controls.autoRotate = false;
+        controls.autoRotateSpeed = 0.5;
 
-            const renderer = new THREE.WebGLRenderer({
-                canvas,
-                antialias: true
-            });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+        scene.add(ambient);
 
-            const controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.enablePan = false;
-            controls.zoomSpeed = 0.5;
-            controls.rotateSpeed = 0.6;
-            controls.autoRotate = false; // on after intro
-            controls.autoRotateSpeed = 0.5;
-            
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+        dirLight.position.set(10, 20, 10);
+        scene.add(dirLight);
 
-            // Lights
-            const ambient = new THREE.AmbientLight(0xffffff, 0.8);
-            scene.add(ambient);
+        let landscape = null;
 
-            const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
-            dirLight.position.set(10, 20, 10);
-            scene.add(dirLight);
+        const loader = new THREE.GLTFLoader();
+        loader.load("scene.gltf", (gltf) => {
+          landscape = gltf.scene;
+          scene.add(landscape);
 
-            let landscape = null;
+          landscape.position.set(0, 0, 0);
+          landscape.scale.set(1, 1, 1);
 
-            // Load low-poly landscape glTF
-            const loader = new THREE.GLTFLoader();
-            loader.load('scene.gltf', (gltf) => {
-                landscape = gltf.scene;
-                scene.add(landscape);
+          camera.lookAt(landscape.position);
+          controls.target.copy(landscape.position);
+          controls.update();
 
-                landscape.position.set(0, 0, 0);
-                landscape.scale.set(1, 1, 1);
+          const tl = gsap.timeline();
 
+          tl.from(
+            landscape.scale,
+            {
+              x: 0.1,
+              y: 0.1,
+              z: 0.1,
+              duration: 2,
+              ease: "power2.out",
+            },
+            0
+          );
+
+          tl.to(
+            camera.position,
+            {
+              z: 12,
+              y: 4,
+              duration: 2,
+              ease: "power2.inOut",
+              onUpdate: () => {
                 camera.lookAt(landscape.position);
-
                 controls.target.copy(landscape.position);
                 controls.update();
+              },
+            },
+            0
+          );
 
-                const tl = gsap.timeline();
+          tl.to(camera.position, {
+            x: 20,
+            z: 8,
+            duration: 3,
+            ease: "power2.inOut",
+            onUpdate: () => {
+              camera.lookAt(landscape.position);
+              controls.target.copy(landscape.position);
+              controls.update();
+            },
+          });
 
-                // landscape grows in
-                tl.from(landscape.scale, {
-                    x: 0.1,
-                    y: 0.1,
-                    z: 0.1,
-                    duration: 2,
-                    ease: "power2.out"
-                }, 0);
+          tl.call(() => {
+            controls.autoRotate = true;
+          });
+        });
 
-                // camera move in
-                tl.to(camera.position, {
-                    z: 12,
-                    y: 4,
-                    duration: 2,
-                    ease: "power2.inOut",
-                    onUpdate: () => {
-                        camera.lookAt(landscape.position);
-                        controls.target.copy(landscape.position);
-                        controls.update();
-                    }
-                }, 0);
+        window.addEventListener("resize", () => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        });
 
-                // slight sideways move for parallax
-                tl.to(camera.position, {
-                    x: 20,
-                    z: 8,
-                    duration: 3,
-                    ease: "power2.inOut",
-                    onUpdate: () => {
-                        camera.lookAt(landscape.position);
-                        controls.target.copy(landscape.position);
-                        controls.update();
-                    }
-                });
-
-                // intro finishes, start slow auto-rotation
-                tl.call(() => {
-                    controls.autoRotate = true;
-                });
-            });
-
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-
-            // Render loop
-            function animate() {
-                requestAnimationFrame(animate);
-
-                controls.update();
-
-                renderer.render(scene, camera);
-            }
-            animate();
+        function animate() {
+          requestAnimationFrame(animate);
+          controls.update();
+          renderer.render(scene, camera);
         }
+        animate();
+      }
 
-        sceneSubTitle.addEventListener('click', () => {
-            const masterT2 = gsap.timeline();
-            /* photomax button pressermaxer */
-            masterT2
+      if (sceneSubTitle) {
+        sceneSubTitle.addEventListener("click", () => {
+          const masterT2 = gsap.timeline();
+
+          masterT2
             .to(sceneContainer, {
-                autoAlpha: 0,
-                duration: 0.5
+              autoAlpha: 0,
+              duration: 0.5,
             })
-            .to(wipehorizontal, {
+            .to(
+              wipehorizontal,
+              {
                 scaleX: 1,
                 duration: 0.5,
-                ease: "power2.inOut"
-            }, "-=0.2") // Overlap with fade out slightly
-            
-            // once screen is black, swap content
-            .set(sceneContainer, { display: 'none' })
-            .set(landscapeScene, { display: 'block' })
+                ease: "power2.inOut",
+              },
+              "-=0.2"
+            )
+            .set(sceneContainer, { display: "none" })
+            .set(landscapeScene, { display: "block" })
             .call(startlandscapeScene)
-            
             .to(wipehorizontal, {
-                scaleX: 0,
-                duration: 0.5,
-                ease: "power2.inOut"
+              scaleX: 0,
+              duration: 0.5,
+              ease: "power2.inOut",
             })
-
             .call(() => {
-                document.addEventListener('click', handleCameraToggleClick);
+              document.addEventListener("click", handleCameraToggleClick);
             });
         });
-    </script>
+      }
 
-</body>
+      // ===== PROFILEMAX SCENE NAVIGATION =====
+      function goToProfileScene() {
+        // If the Photomax camera/scene is visible, hide it before switching
+        hideCamera();
+        if (landscapeScene) {
+          landscapeScene.style.display = "none";
+        }
+
+        const masterT2 = gsap.timeline();
+
+        masterT2
+          .to(sceneContainer, {
+            autoAlpha: 0,
+            duration: 0.5,
+          })
+          .to(
+            wipehorizontal,
+            {
+              scaleX: 1,
+              duration: 0.5,
+              ease: "power2.inOut",
+            },
+            "-=0.2"
+          )
+          .set(sceneContainer, { display: "none" })
+          .set(gbscreenmax, { display: "block" })
+          .to(wipehorizontal, {
+            scaleX: 0,
+            duration: 0.5,
+            ease: "power2.inOut",
+          });
+      }
+
+      if (profileSceneTitle) {
+        profileSceneTitle.addEventListener("click", goToProfileScene);
+      }
+
+      // ===== PROFILE CARD LOGIC (ProfileMax) =====
+      const handleInput = document.getElementById("profileHandle");
+      const taglineInput = document.getElementById("profileTagline");
+      const moodSelect = document.getElementById("profileMood");
+      const eraSelect = document.getElementById("profileEra");
+      const contactInput = document.getElementById("profileContact");
+
+      const handlePreview = document.getElementById("profileHandlePreview");
+      const taglinePreview = document.getElementById("profileTaglinePreview");
+      const moodTag = document.getElementById("profileMoodTag");
+      const eraTag = document.getElementById("profileEraTag");
+      const contactPreview = document.getElementById("profileContactPreview");
+      const avatarInitial = document.getElementById("profileAvatarInitial");
+      const profileCard = document.getElementById("profileCard");
+
+      const styleRadios = document.querySelectorAll(
+        'input[name="profileStyle"]'
+      );
+
+      function updateProfilePreview() {
+        if (!handleInput) return;
+
+        const handle = handleInput.value.trim() || "guest_user";
+        const tagline =
+          taglineInput.value.trim() ||
+          "live from the retro web, brb customizing my profile";
+        const mood = moodSelect.value;
+        const era = eraSelect.value;
+        const contact = contactInput.value.trim() || "add a link or email";
+
+        handlePreview.textContent = "@" + handle;
+        taglinePreview.textContent = tagline;
+        moodTag.textContent = "mood: " + mood;
+        eraTag.textContent = "era: " + era;
+        contactPreview.textContent = contact;
+
+        avatarInitial.textContent = handle.charAt(0).toUpperCase() || "G";
+      }
+
+      function updateProfileStyle() {
+        if (!profileCard) return;
+
+        const selected = document.querySelector(
+          'input[name="profileStyle"]:checked'
+        );
+        const style = selected ? selected.value : "retro";
+        profileCard.classList.remove(
+          "profile-card-retro",
+          "profile-card-modern"
+        );
+        profileCard.classList.add(
+          style === "modern" ? "profile-card-modern" : "profile-card-retro"
+        );
+      }
+
+      if (handleInput) {
+        [
+          handleInput,
+          taglineInput,
+          moodSelect,
+          eraSelect,
+          contactInput,
+        ].forEach((el) => {
+          el.addEventListener("input", updateProfilePreview);
+          el.addEventListener("change", updateProfilePreview);
+        });
+
+        styleRadios.forEach((radio) =>
+          radio.addEventListener("change", updateProfileStyle)
+        );
+
+        updateProfilePreview();
+        updateProfileStyle();
+      }
+
+      const copyBtn = document.getElementById("copySignature");
+      const signatureOutput = document.getElementById("signatureOutput");
+
+      function buildSignatureText() {
+        const handle = (handleInput.value.trim() || "guest_user").toLowerCase();
+        const mood = moodSelect.value;
+        const era = eraSelect.value;
+        const contact = contactInput.value.trim() || "add a link or email";
+
+        return (
+          "@" +
+          handle +
+          " · mood: " +
+          mood +
+          " · era: " +
+          era +
+          " · contact: " +
+          contact
+        );
+      }
+
+      if (copyBtn) {
+        copyBtn.addEventListener("click", () => {
+          const text = buildSignatureText();
+          signatureOutput.value = text;
+
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).catch(() => {});
+          } else if (signatureOutput.select) {
+            signatureOutput.select();
+            document.execCommand("copy");
+          }
+        });
+      }
+
+      const generateLinkBtn = document.getElementById("generateLink");
+      const shareLinkOutput = document.getElementById("shareLinkOutput");
+
+      function getProfileData() {
+        const handle = handleInput.value.trim() || "guest_user";
+        const tagline =
+          taglineInput.value.trim() ||
+          "live from the retro web, brb customizing my profile";
+        const mood = moodSelect.value;
+        const era = eraSelect.value;
+        const contact = contactInput.value.trim() || "";
+
+        const selected = document.querySelector(
+          'input[name="profileStyle"]:checked'
+        );
+        const style = selected ? selected.value : "retro";
+
+        return {
+          handle,
+          tagline,
+          mood,
+          era,
+          style,
+          contact,
+        };
+      }
+
+      if (generateLinkBtn) {
+        generateLinkBtn.addEventListener("click", () => {
+          try {
+            const profile = getProfileData();
+            const json = JSON.stringify(profile);
+            const encoded = btoa(unescape(encodeURIComponent(json)));
+
+            const url = `${window.location.origin}${
+              window.location.pathname
+            }?card=${encodeURIComponent(encoded)}`;
+
+            shareLinkOutput.value = url;
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(url).catch(() => {});
+            }
+          } catch (e) {
+            console.error("Failed to generate link", e);
+          }
+        });
+      }
+
+      function loadCardFromUrlIfPresent() {
+        const params = new URLSearchParams(window.location.search);
+        const encoded = params.get("card");
+        if (!encoded) return;
+
+        try {
+          const json = decodeURIComponent(escape(atob(encoded)));
+          const data = JSON.parse(json);
+
+          if (!handleInput) return;
+
+          handleInput.value = data.handle || "";
+          taglineInput.value = data.tagline || "";
+          moodSelect.value = data.mood || "chill";
+          eraSelect.value = data.era || "Y2K";
+          contactInput.value = data.contact || "";
+
+          const style = data.style || "retro";
+          const radioToCheck = document.querySelector(
+            `input[name="profileStyle"][value="${style}"]`
+          );
+          if (radioToCheck) {
+            radioToCheck.checked = true;
+          }
+
+          updateProfilePreview();
+          updateProfileStyle();
+
+          introContent.style.display = "none";
+          sceneContainer.style.display = "none";
+          gbscreenmax.style.display = "block";
+        } catch (e) {
+          console.error("Failed to load card from URL", e);
+        }
+      }
+
+      loadCardFromUrlIfPresent();
+
+      const backBtn = document.getElementById("backToHome");
+      if (backBtn) {
+        backBtn.addEventListener("click", () => {
+          gbscreenmax.style.display = "none";
+
+          if (landscapeScene) {
+            landscapeScene.style.display = "none";
+          }
+
+          hideCamera();
+
+          sceneContainer.style.display = "block";
+          sceneContainer.style.opacity = 1;
+          sceneContainer.style.visibility = "visible";
+        });
+      }
+
+      // Tiny inconvenient back button for Photomax
+      const backPhotomaxBtn = document.getElementById("backFromPhotomax");
+      if (backPhotomaxBtn) {
+        backPhotomaxBtn.addEventListener("click", () => {
+          if (landscapeScene) {
+            landscapeScene.style.display = "none";
+          }
+          hideCamera();
+          sceneContainer.style.display = "block";
+          sceneContainer.style.opacity = 1;
+          sceneContainer.style.visibility = "visible";
+        });
+      }
+
+      // TODO: In the future, hook a QR code generator here using shareLinkOutput.value
+      // const qrBtn = document.getElementById("generateQr");
+      // if (qrBtn) {
+      //   qrBtn.addEventListener("click", () => {
+      //     // generate QR from shareLinkOutput.value
+      //   });
+      // }
+    </script>
+  </body>
 </html>
