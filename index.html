@@ -387,6 +387,11 @@
       }
 
       function handleCameraToggleClick(event) {
+        // Only toggle camera when the Photomax landscape scene is visible
+        if (!landscapeScene || landscapeScene.style.display !== "block") {
+          return;
+        }
+
         const clickedInsideCamera = cameraOverlay.contains(event.target);
 
         if (!cameraIsVisible) {
@@ -1106,6 +1111,7 @@
           }
 
           hideCamera();
+          document.removeEventListener("click", handleCameraToggleClick);
 
           sceneContainer.style.display = "block";
           sceneContainer.style.opacity = 1;
@@ -1113,7 +1119,7 @@
         });
       }
 
-      // Tiny inconvenient back button for Photomax
+      // Tiny inconvenient back button
       const backPhotomaxBtn = document.getElementById("backFromPhotomax");
       if (backPhotomaxBtn) {
         backPhotomaxBtn.addEventListener("click", () => {
@@ -1121,6 +1127,7 @@
             landscapeScene.style.display = "none";
           }
           hideCamera();
+          document.removeEventListener("click", handleCameraToggleClick);
           sceneContainer.style.display = "block";
           sceneContainer.style.opacity = 1;
           sceneContainer.style.visibility = "visible";
