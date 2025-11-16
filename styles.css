@@ -74,6 +74,7 @@ body, html {
   width: 100%;
   text-align: center;
   z-index: 2; /* in front of sky (1) */
+  user-select: none;
 
   font-family: 'Press Start 2P', cursive;
   font-size: 6vw;
@@ -97,4 +98,33 @@ body, html {
   /* start hidden for animation */
   opacity: 0;
   transform: scale(0.8);
+}
+
+.retrowave-tile {
+  transition: all 0.3s ease;
+}
+
+.tile-selected {
+  fill: rgba(0, 179, 255, 0.574) !important;
+  stroke: #00faff !important;
+  stroke-width: 2px !important;
+  filter:
+    drop-shadow(0 0 6px #FF00FF)
+    drop-shadow(0 0 10px #00faff);
+  animation: tilePulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes tilePulse {
+  0% {
+    stroke-width: 1px;
+    filter: 
+      drop-shadow(0 0 4px #FF00FF)
+      drop-shadow(0 0 8px #00faff);
+  }
+  100% {
+    stroke-width: 3px;
+    filter: 
+      drop-shadow(0 0 10px #FF00FF)
+      drop-shadow(0 0 16px #00faff);
+  }
 }

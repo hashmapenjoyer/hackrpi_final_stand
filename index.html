@@ -56,7 +56,6 @@
             const leftBound = -overshoot;
             const rightBound = width + overshoot;
             
-            // vertical Lines
             for (let i = 0; i <= numVertical; i++) {
                 const x = leftBound + ((rightBound - leftBound) / numVertical) * i;
 
@@ -69,14 +68,18 @@
 
                 verticalLines.push({
                     element: line,
-                    final: { x2: vx, y2: vy }
+                    final: { x2: vx, y2: vy },
+                    old: { x1: x, y1: height, x2: x, y2: height}
                 });
             }
 
-            // horizontal lines
             for (let j = 0; j < numHorizontal; j++) {
-                const t = j / numHorizontal;
-                const eased = Math.pow(t, 2);
+                const t = j / (numHorizontal - 1);
+                
+                // this is some super bullshit btw
+                const perspectiveFactor = 0.8;
+                const eased = Math.pow(1 - t, 1 + perspectiveFactor * 2);
+                
                 const y = horizonHeight + (height - horizonHeight) * eased;
 
                 const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -89,18 +92,81 @@
 
                 horizontalLines.push({
                     element: line,
-                    final: { x1: 0, x2: width }
+                    final: { x1: 0, x2: width },
+                    old: { x1: startX, y1: y, x2: startX, y2: y}
                 });
             }
 
             return [verticalLines, horizontalLines];
         }
 
+        function getIntersection(vLine, hLine) {
+            const vLine_is_vertical = vLine.old.x1 === vLine.final.x2;
+            if (vLine_is_vertical) {
+                return { x: vLine.old.x1, y: hLine.old.y1 }
+            }
+
+            const vLine_is_horizontal = vLine.old.y1 === vLine.final.y2;
+            if (vLine_is_horizontal) {
+                //should only be possible if I really mess up generation but whatever
+                console.error('vertical grid line is horizontal somehow??')
+                return { x: 0, y: 0 }
+            }
+
+            const m = (vLine.final.y2 - vLine.old.y1) / (vLine.final.x2 - vLine.old.x1);
+
+            // (intersection_y - y2) = m * (intersection_x - x2)
+            // intersection_x = (intersection_y - y2) / m + x2
+            const x_intersection = vLine.final.x2 + (hLine.old.y1 - vLine.final.y2) / m
+
+            return { x: x_intersection, y: hLine.old.y1 }
+        }
+        
+        function buildClickableLayer(hLines, vLines) {
+            for (let j = 0; j < hLines.length - 1; j++) {
+                for (let i = 0; i < vLines.length - 1; i++) {
+                    // get the 4 lines that define this tile
+                    const vLine1 = vLines[i];
+                    const vLine2 = vLines[i+1];
+                    const hLine1 = hLines[j];
+                    const hLine2 = hLines[j+1];
+
+                    // calculate the 4 corner points of the polygon
+                    const p1 = getIntersection(vLine1, hLine1);
+                    const p2 = getIntersection(vLine2, hLine1);
+                    const p3 = getIntersection(vLine2, hLine2);
+                    const p4 = getIntersection(vLine1, hLine2);
+
+                    // create the polygon element
+                    const poly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+                    poly.setAttribute('points', 
+                        `${p1.x},${p1.y} ${p2.x},${p2.y} ${p3.x},${p3.y} ${p4.x},${p4.y}`
+                    );
+                    
+                    poly.setAttribute('class', 'retrowave-tile');
+                    poly.setAttribute('fill', 'transparent');
+                    poly.setAttribute('stroke', 'none');
+                    poly.style.cursor = 'pointer';
+
+                    // store tile data for debugging
+                    poly.setAttribute('data-row', j);
+                    poly.setAttribute('data-col', i);
+
+                    poly.addEventListener('click', (e) => {
+                        e.target.classList.toggle('tile-selected');
+                    });
+
+                    svg.appendChild(poly);
+                }
+            }
+        }
+
         // animations
 
-        // 1. Build the grid animation timeline (paused)
+        // build the grid animation timeline (paused)
         const introTl = gsap.timeline({ paused: true });
         const [verticalLines, horizontalLines] = buildGrid();
+        buildClickableLayer(horizontalLines, verticalLines);
 
         introTl.to(sceneTitle, {
             opacity: 1,
