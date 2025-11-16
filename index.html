@@ -10,9 +10,8 @@
 <body>
 
     <div id="introContent">
-        <h1>This is a Heading</h1>
-        <p>This is a paragraph. Press the button to start the scene.</p>
-        <button id="triggerWipe">Trigger Wipe</button>
+        <h1>header one</h1>
+        <button id="triggerWipe">button</button>
     </div>
 
     <div id="wipeOverlay"></div>
@@ -20,7 +19,7 @@
     <div id="sceneContainer">
         <div id="sky"></div>
 
-        <h1 id="sceneTitle">YOUR TITLE</h1>
+        <h1 id="sceneTitle">LIFE MAXER</h1>
 
         <div id="gridContainer">
             <svg id="perspectiveGrid" width="100%" height="100%" preserveAspectRatio="none"></svg>
@@ -155,6 +154,10 @@
                     poly.addEventListener('click', (e) => {
                         e.target.classList.toggle('tile-selected');
                     });
+
+                    if (i === 8 && j === 3) {
+                        poly.classList.toggle('tile-selected');
+                    }
 
                     svg.appendChild(poly);
                 }
