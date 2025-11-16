@@ -329,8 +329,12 @@
 
           cameraSliderKnob.style.left = clamped + "px";
 
-          const value = (clamped - min) / (max - min);
-          cameraSliderKnob.dataset.value = value.toFixed(2);
+          const normalized = (clamped - min) / (max - min);
+
+          const value = Math.round(normalized * 100);
+          cameraSliderKnob.dataset.value = value;
+
+          pixelate(value);
         }
 
         function startSliderDrag(evt) {
