@@ -398,6 +398,7 @@
 
     document.getElementById('imageUpload').addEventListener('change', function(e) {
         const file = e.target.files[0];
+        if (!file) return;
         const reader = new FileReader();
 
         reader.onload = function(event) {
@@ -425,9 +426,23 @@
                 ctx.clearRect(0, 0, vfW, vfH);
                 ctx.drawImage(img, offsetX, offsetY, scaledW, scaledH);
 
-                Caman('#imageCanvas', function() {
-                    this.render();
-                });
+                // Save original image + layout so pixelate() can always redraw from it
+                window._loadedImage = {
+                    img: img,
+                    offsetX: offsetX,
+                    offsetY: offsetY,
+                    scaledW: scaledW,
+                    scaledH: scaledH,
+                    vfW: vfW,
+                    vfH: vfH
+                };
+
+                // If you still want to use Caman for other filters, keep this, otherwise ignore.
+                if (typeof Caman === 'function') {
+                    Caman('#imageCanvas', function() {
+                        this.render();
+                    });
+                }
             };
             img.src = event.target.result;
         };
@@ -435,7 +450,53 @@
         reader.readAsDataURL(file);
     });
 
-      if (downloadBtn) {
+    /* === pixelate(value) function ===
+    value: 0 (no pixelation) .. 100 (max)
+    */
+    function pixelate(value) {
+        const settings = window._loadedImage;
+        if (!settings) return; // nothing loaded yet
+
+        value = Math.max(0, Math.min(100, Number(value) || 0));
+        const { img, offsetX, offsetY, scaledW, scaledH, vfW, vfH } = settings;
+
+        const canvas = document.getElementById('imageCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Start by drawing the original nicely-scaled image
+        ctx.clearRect(0, 0, vfW, vfH);
+        ctx.drawImage(img, offsetX, offsetY, scaledW, scaledH);
+
+        if (value <= 0) return; // no pixelation requested
+
+        // Determine block size limits (tweak divisor to taste)
+        // maxBlock is the largest single block size (in pixels) we'll allow
+        const maxBlock = Math.max(2, Math.floor(Math.max(scaledW, scaledH) / 8));
+        const blockSize = Math.ceil(1 + (value / 100) * maxBlock);
+
+        // Compute small canvas size — how much we downscale by
+        const smallW = Math.max(1, Math.floor(scaledW / blockSize));
+        const smallH = Math.max(1, Math.floor(scaledH / blockSize));
+
+        // Create temporary canvas to render the downsampled image
+        const tmp = document.createElement('canvas');
+        tmp.width = smallW;
+        tmp.height = smallH;
+        const tctx = tmp.getContext('2d');
+
+        // Draw the image region down into the tiny canvas. We want the exact same
+        // content that was drawn into the visible canvas, so scale whole image into small region.
+        // Using the original image as source gives us best quality downsample.
+        tctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, smallW, smallH);
+
+        // Now draw that tiny canvas back up to the visible canvas, at the image's offset,
+        // with smoothing disabled to keep hard blocks.
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(tmp, 0, 0, smallW, smallH, offsetX, offsetY, scaledW, scaledH);
+        ctx.imageSmoothingEnabled = true;
+    }
+
+    if (downloadBtn) {
         downloadBtn.addEventListener("click", function () {
           const canvas = document.getElementById("imageCanvas");
           if (!canvas) return;
@@ -445,14 +506,14 @@
           link.href = canvas.toDataURL();
           link.click();
         });
-      }
+    }
 
-        function beep() {
-            console.log('beep');
-            const audio = new Audio('https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3');
-            audio.play();
-            alert('beep!!!!');
-        };
+    function beep() {
+        console.log('beep');
+        const audio = new Audio('https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3');
+        audio.play();
+        alert('beep!!!!');
+    };
 
 
       // ===== RETROWAVE GRID BUILDING =====
