@@ -1,283 +1,709 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Retro</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link href="styles.css" rel="stylesheet">
-</head>
-<body>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link href="styles.css" rel="stylesheet" />
+  </head>
+  <body>
     <div id="introContent">
-        <h1>header one</h1>
-        <button id="triggerWipe">button</button>
+      <h1>header one</h1>
+
+      <!-- One button for LifeMax -->
+      <button id="triggerWipe">button</button>
     </div>
 
     <div id="wipeOverlay"></div>
     <div id="wipeOverlayhorizontal"></div>
 
     <div id="sceneContainer">
-        <div id="sky"></div>
+      <div id="sky"></div>
 
-        <h1 id="sceneTitle">LIFE MAXER</h1>
+      <h1 id="sceneTitle">LIFE MAXER</h1>
 
-        <div id="gridContainer">
-            <svg id="perspectiveGrid" width="100%" height="100%" preserveAspectRatio="none"></svg>
+      <div id="gridContainer">
+        <svg
+          id="perspectiveGrid"
+          width="100%"
+          height="100%"
+          preserveAspectRatio="none"
+        ></svg>
+      </div>
+
+      <div id="sceneButtonRow">
+        <button id="sceneSubTitle" aria-label="Photomax title button">
+          Photomax!
+        </button>
+
+        <button id="profileSceneTitle" aria-label="Profilemax title button">
+          Profilemax!
+        </button>
+      </div>
+    </div>
+    <!-- end of sceneContainer -->
+
+    <div id="gbscreenmax" style="display: none">
+      <button id="backToHome" class="profile-back-btn" type="button">
+        ← Back to LIFE MAXER
+      </button>
+      <div class="profile-layout">
+        <!-- LEFT: form -->
+        <div class="profile-form">
+          <h2 class="profile-heading">Create your card</h2>
+          <p class="profile-subtext">
+            Pick a handle, vibe, and style. Your profile card updates in real
+            time.
+          </p>
+
+          <div class="profile-field">
+            <label class="profile-label">Handle / name</label>
+            <input
+              id="profileHandle"
+              class="profile-input"
+              type="text"
+              placeholder="goatlover_2007"
+            />
+          </div>
+
+          <div class="profile-field">
+            <label class="profile-label">Tagline</label>
+            <input
+              id="profileTagline"
+              class="profile-input"
+              type="text"
+              placeholder="live from hack night, pls send snacks"
+            />
+          </div>
+
+          <div class="profile-row">
+            <div class="profile-field">
+              <label class="profile-label">Mood</label>
+              <select id="profileMood" class="profile-input">
+                <option value="chill">chill</option>
+                <option value="chaotic">chaotic</option>
+                <option value="focused">focused</option>
+                <option value="nostalgic">nostalgic</option>
+              </select>
+            </div>
+            <div class="profile-field">
+              <label class="profile-label">Era</label>
+              <select id="profileEra" class="profile-input">
+                <option value="90s">90s</option>
+                <option value="2000s">2000s</option>
+                <option value="Y2K" selected>Y2K</option>
+                <option value="2010s">2010s</option>
+                <option value="Today">Today</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="profile-field">
+            <label class="profile-label">Profile style</label>
+            <div class="profile-style-options">
+              <label>
+                <input type="radio" name="profileStyle" value="retro" checked />
+                Retro
+              </label>
+              <label>
+                <input type="radio" name="profileStyle" value="modern" />
+                Modern
+              </label>
+            </div>
+          </div>
+
+          <div class="profile-field">
+            <label class="profile-label">Contact / link</label>
+            <input
+              id="profileContact"
+              class="profile-input"
+              type="text"
+              placeholder="https://your-site.com or email"
+            />
+          </div>
+
+          <div class="profile-export">
+            <button id="copySignature" class="profile-copy-btn" type="button">
+              Copy text signature
+            </button>
+            <textarea
+              id="signatureOutput"
+              class="profile-signature"
+              rows="3"
+              readonly
+            ></textarea>
+          </div>
+
+          <div class="profile-field">
+            <label class="profile-label">Shareable link</label>
+            <button id="generateLink" type="button" class="profile-copy-btn">
+              Generate link
+            </button>
+            <input
+              id="shareLinkOutput"
+              class="profile-input"
+              type="text"
+              readonly
+              placeholder="click Generate link"
+              style="margin-top: 6px"
+            />
+          </div>
         </div>
 
-        
-        <button id="sceneSubTitle" aria-label="Photomax title button">
-        Photomax!
-        </button>
-    </div>
+        <!-- RIGHT: card preview -->
+        <div class="profile-preview">
+          <div id="profileCard" class="profile-card profile-card-retro">
+            <div class="profile-card-header">
+              <div class="profile-avatar">
+                <span id="profileAvatarInitial">G</span>
+              </div>
+              <div>
+                <div id="profileHandlePreview" class="profile-handle">
+                  @guest_user
+                </div>
+                <div id="profileTaglinePreview" class="profile-tagline">
+                  live from the retro web, brb customizing my profile
+                </div>
+              </div>
+            </div>
 
-    
+            <div class="profile-tags">
+              <span id="profileMoodTag" class="profile-tag">mood: chill</span>
+              <span id="profileEraTag" class="profile-tag">era: Y2K</span>
+            </div>
+
+            <div class="profile-contact-row">
+              <span class="profile-contact-label">contact:</span>
+              <span id="profileContactPreview" class="profile-contact-text">
+                add a link or email
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"></script>
 
     <script>
-        const introContent = document.getElementById('introContent');
-        const triggerWipe = document.getElementById('triggerWipe');
-        const wipe = document.getElementById('wipeOverlay');
-        const sceneContainer = document.getElementById('sceneContainer');
-        const svg = document.getElementById('perspectiveGrid');
-        const gbscreenmax = document.getElementById('gbscreenmax');
-        const wipehorizontal = document.getElementById('wipeOverlayhorizontal');
+      const introContent = document.getElementById("introContent");
+      const triggerWipe = document.getElementById("triggerWipe");
+      const wipe = document.getElementById("wipeOverlay");
+      const sceneContainer = document.getElementById("sceneContainer");
+      const svg = document.getElementById("perspectiveGrid");
+      const gbscreenmax = document.getElementById("gbscreenmax");
+      const wipehorizontal = document.getElementById("wipeOverlayhorizontal");
 
-        const sceneTitle = document.getElementById('sceneTitle');
-        const sceneSubTitle = document.getElementById('sceneSubTitle');
-        let toggledTile = null;
+      const sceneTitle = document.getElementById("sceneTitle");
+      const sceneSubTitle = document.getElementById("sceneSubTitle");
+      const profileSceneTitle = document.getElementById("profileSceneTitle");
+      let toggledTile = null;
 
-        function buildGrid() {
-            const width = window.innerWidth;
-            const height = window.innerHeight * 0.6; // Use 60% height of viewport (since container is 60%)
-            const horizonHeight = 0; // The container's 0 is the horizon
+      function buildGrid() {
+        const width = window.innerWidth;
+        const height = window.innerHeight * 0.6; // Use 60% height of viewport (since container is 60%)
+        const horizonHeight = 0; // The container's 0 is the horizon
 
-            const vx = width / 2;
-            const vy = horizonHeight; 
+        const vx = width / 2;
+        const vy = horizonHeight;
 
-            const numVertical = 20;
-            const numHorizontal = 12;
+        const numVertical = 20;
+        const numHorizontal = 12;
 
-            const verticalLines = [];
-            const horizontalLines = [];
+        const verticalLines = [];
+        const horizontalLines = [];
 
-            const overshoot = width * 1.5;
-            const leftBound = -overshoot;
-            const rightBound = width + overshoot;
-            
-            for (let i = 0; i <= numVertical; i++) {
-                const x = leftBound + ((rightBound - leftBound) / numVertical) * i;
+        const overshoot = width * 1.5;
+        const leftBound = -overshoot;
+        const rightBound = width + overshoot;
 
-                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                line.setAttribute("x1", x);
-                line.setAttribute("y1", height); 
-                line.setAttribute("x2", x);
-                line.setAttribute("y2", height);
-                svg.appendChild(line);
+        for (let i = 0; i <= numVertical; i++) {
+          const x = leftBound + ((rightBound - leftBound) / numVertical) * i;
 
-                verticalLines.push({
-                    element: line,
-                    final: { x2: vx, y2: vy },
-                    old: { x1: x, y1: height, x2: x, y2: height}
-                });
-            }
+          const line = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line"
+          );
+          line.setAttribute("x1", x);
+          line.setAttribute("y1", height);
+          line.setAttribute("x2", x);
+          line.setAttribute("y2", height);
+          svg.appendChild(line);
 
-            for (let j = 0; j < numHorizontal; j++) {
-                const t = j / (numHorizontal - 1);
-                
-                // this is some super bullshit btw
-                const perspectiveFactor = 0.8;
-                const eased = Math.pow(1 - t, 1 + perspectiveFactor * 2);
-                
-                const y = horizonHeight + (height - horizonHeight) * eased;
-
-                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                const startX = (j % 2 ? 0 : width);
-                line.setAttribute("x1", startX);
-                line.setAttribute("x2", startX);
-                line.setAttribute("y1", y);
-                line.setAttribute("y2", y);
-                svg.appendChild(line);
-
-                horizontalLines.push({
-                    element: line,
-                    final: { x1: 0, x2: width },
-                    old: { x1: startX, y1: y, x2: startX, y2: y}
-                });
-            }
-
-            return [verticalLines, horizontalLines];
+          verticalLines.push({
+            element: line,
+            final: { x2: vx, y2: vy },
+            old: { x1: x, y1: height, x2: x, y2: height },
+          });
         }
 
-        function getIntersection(vLine, hLine) {
-            const vLine_is_vertical = vLine.old.x1 === vLine.final.x2;
-            if (vLine_is_vertical) {
-                return { x: vLine.old.x1, y: hLine.old.y1 }
-            }
+        for (let j = 0; j < numHorizontal; j++) {
+          const t = j / (numHorizontal - 1);
 
-            const vLine_is_horizontal = vLine.old.y1 === vLine.final.y2;
-            if (vLine_is_horizontal) {
-                //should only be possible if I really mess up generation but whatever
-                console.error('vertical grid line is horizontal somehow??')
-                return { x: 0, y: 0 }
-            }
+          // this is some super bullshit btw
+          const perspectiveFactor = 0.8;
+          const eased = Math.pow(1 - t, 1 + perspectiveFactor * 2);
 
-            const m = (vLine.final.y2 - vLine.old.y1) / (vLine.final.x2 - vLine.old.x1);
+          const y = horizonHeight + (height - horizonHeight) * eased;
 
-            // (intersection_y - y2) = m * (intersection_x - x2)
-            // intersection_x = (intersection_y - y2) / m + x2
-            const x_intersection = vLine.final.x2 + (hLine.old.y1 - vLine.final.y2) / m
+          const line = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line"
+          );
+          const startX = j % 2 ? 0 : width;
+          line.setAttribute("x1", startX);
+          line.setAttribute("x2", startX);
+          line.setAttribute("y1", y);
+          line.setAttribute("y2", y);
+          svg.appendChild(line);
 
-            return { x: x_intersection, y: hLine.old.y1 }
-        }
-        
-        function buildClickableLayer(hLines, vLines) {
-            for (let j = 0; j < hLines.length - 1; j++) {
-                for (let i = 0; i < vLines.length - 1; i++) {
-                    // get the 4 lines that define this tile
-                    const vLine1 = vLines[i];
-                    const vLine2 = vLines[i+1];
-                    const hLine1 = hLines[j];
-                    const hLine2 = hLines[j+1];
-
-                    // calculate the 4 corner points of the polygon
-                    const p1 = getIntersection(vLine1, hLine1);
-                    const p2 = getIntersection(vLine2, hLine1);
-                    const p3 = getIntersection(vLine2, hLine2);
-                    const p4 = getIntersection(vLine1, hLine2);
-
-                    // create the polygon element
-                    const poly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-                    poly.setAttribute('points', 
-                        `${p1.x},${p1.y} ${p2.x},${p2.y} ${p3.x},${p3.y} ${p4.x},${p4.y}`
-                    );
-                    
-                    poly.setAttribute('class', 'retrowave-tile');
-                    poly.setAttribute('fill', 'transparent');
-                    poly.setAttribute('stroke', 'none');
-                    poly.style.cursor = 'pointer';
-
-                    // store tile data for debugging
-                    poly.setAttribute('data-row', j);
-                    poly.setAttribute('data-col', i);
-
-                    poly.addEventListener('click', (e) => {
-                        e.target.classList.toggle('tile-selected');
-                    });
-
-                    if (i === 8 && j === 3) {
-                        toggledTile = poly;
-                    }
-
-                    svg.appendChild(poly);
-                }
-            }
+          horizontalLines.push({
+            element: line,
+            final: { x1: 0, x2: width },
+            old: { x1: startX, y1: y, x2: startX, y2: y },
+          });
         }
 
-        // animations
+        return [verticalLines, horizontalLines];
+      }
 
-        // build the grid animation timeline (paused)
-        const introTl = gsap.timeline({ paused: true });
-        const [verticalLines, horizontalLines] = buildGrid();
-        buildClickableLayer(horizontalLines, verticalLines);
+      function getIntersection(vLine, hLine) {
+        const vLine_is_vertical = vLine.old.x1 === vLine.final.x2;
+        if (vLine_is_vertical) {
+          return { x: vLine.old.x1, y: hLine.old.y1 };
+        }
 
-        introTl.to(sceneTitle, {
+        const vLine_is_horizontal = vLine.old.y1 === vLine.final.y2;
+        if (vLine_is_horizontal) {
+          //should only be possible if I really mess up generation but whatever
+          console.error("vertical grid line is horizontal somehow??");
+          return { x: 0, y: 0 };
+        }
+
+        const m =
+          (vLine.final.y2 - vLine.old.y1) / (vLine.final.x2 - vLine.old.x1);
+
+        // (intersection_y - y2) = m * (intersection_x - x2)
+        // intersection_x = (intersection_y - y2) / m + x2
+        const x_intersection =
+          vLine.final.x2 + (hLine.old.y1 - vLine.final.y2) / m;
+
+        return { x: x_intersection, y: hLine.old.y1 };
+      }
+
+      function buildClickableLayer(hLines, vLines) {
+        for (let j = 0; j < hLines.length - 1; j++) {
+          for (let i = 0; i < vLines.length - 1; i++) {
+            // get the 4 lines that define this tile
+            const vLine1 = vLines[i];
+            const vLine2 = vLines[i + 1];
+            const hLine1 = hLines[j];
+            const hLine2 = hLines[j + 1];
+
+            // calculate the 4 corner points of the polygon
+            const p1 = getIntersection(vLine1, hLine1);
+            const p2 = getIntersection(vLine2, hLine1);
+            const p3 = getIntersection(vLine2, hLine2);
+            const p4 = getIntersection(vLine1, hLine2);
+
+            // create the polygon element
+            const poly = document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "polygon"
+            );
+            poly.setAttribute(
+              "points",
+              `${p1.x},${p1.y} ${p2.x},${p2.y} ${p3.x},${p3.y} ${p4.x},${p4.y}`
+            );
+
+            poly.setAttribute("class", "retrowave-tile");
+            poly.setAttribute("fill", "transparent");
+            poly.setAttribute("stroke", "none");
+            poly.style.cursor = "pointer";
+
+            // store tile data for debugging
+            poly.setAttribute("data-row", j);
+            poly.setAttribute("data-col", i);
+
+            poly.addEventListener("click", (e) => {
+              e.target.classList.toggle("tile-selected");
+            });
+
+            if (i === 8 && j === 3) {
+              toggledTile = poly;
+            }
+
+            svg.appendChild(poly);
+          }
+        }
+      }
+
+      // animations
+
+      // build the grid animation timeline (paused)
+      const introTl = gsap.timeline({ paused: true });
+      const [verticalLines, horizontalLines] = buildGrid();
+      buildClickableLayer(horizontalLines, verticalLines);
+
+      introTl.to(
+        sceneTitle,
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 1.5,
+          ease: "power2.out",
+        },
+        "0.5"
+      );
+
+      introTl.to(
+        sceneSubTitle,
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 1.5,
+          ease: "power2.out",
+        },
+        "0.5"
+      );
+
+      introTl.to(
+        profileSceneTitle,
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 1.5,
+          ease: "power2.out",
+        },
+        "0.5"
+      );
+
+      horizontalLines.forEach((line) => {
+        introTl.to(
+          line.element,
+          {
+            attr: line.final,
             opacity: 1,
-            scale: 1,
-            duration: 1.5,
-            ease: "power2.out"
-        }, "0.5");
+            duration: 1,
+            ease: "power3.out",
+          },
+          "0.2"
+        );
+      });
 
-        introTl.to(sceneSubTitle, {
+      verticalLines.forEach((line) => {
+        introTl.to(
+          line.element,
+          {
+            attr: line.final,
             opacity: 1,
-            scale: 1,
-            duration: 1.5,
-            ease: "power2.out"
-        }, "0.5");
+            duration: 1,
+            ease: "power2.out",
+          },
+          "0.4"
+        );
+      });
 
-        horizontalLines.forEach((line) => {
-            introTl.to(line.element, {
-                attr: line.final,
-                opacity: 1,
-                duration: 1,
-                ease: "power3.out"
-            }, "0.2");
-        });
+      // intro → PhotoMax scene (original teammate flow)
+      triggerWipe.addEventListener(
+        "click",
+        () => {
+          const masterTl = gsap.timeline();
 
-        verticalLines.forEach((line) => {
-            introTl.to(line.element, {
-                attr: line.final,
-                opacity: 1,
-                duration: 1,
-                ease: "power2.out"
-            }, "0.4");
-        });
-
-        // button
-        triggerWipe.addEventListener('click', () => {
-            
-            const masterTl = gsap.timeline();
-
-            masterTl
-                // fade out the original content
-                .to(introContent, { 
-                    autoAlpha: 0,
-                    duration: 0.5 
-                })
-                // wipe UP to cover the screen
-                .to(wipe, {
-                    scaleY: 1,
-                    duration: 0.5,
-                    ease: "power2.inOut"
-                }, "-=0.2") // Overlap with fade out slightly
-                
-                // once screen is black, swap content
-                .set(introContent, { display: 'none' })
-                .set(sceneContainer, { display: 'block' })
-                
-                // play grid animation
-                .call(() => {
-                    introTl.play();
-                })
-                
-                // wipe down to reveal the new scene
-                .to(wipe, {
-                    scaleY: 0,
-                    duration: 0.5,
-                    ease: "power2.inOut"
-                });
-
-        }, { once: true }); // ensures the button can only be clicked once
-
-        sceneSubTitle.addEventListener('click', () => {
-            const masterT2 = gsap.timeline();
-
-            masterT2
-            .to(sceneContainer, {
-                autoAlpha: 0,
-                duration: 0.5
+          masterTl
+            // fade out the original content
+            .to(introContent, {
+              autoAlpha: 0,
+              duration: 0.5,
             })
-            .to(wipehorizontal, {
-                    scaleX: 1,
-                    duration: 0.5,
-                    ease: "power2.inOut"
-                }, "-=0.2") // Overlap with fade out slightly
-                
-                // once screen is black, swap content
-                .set(sceneContainer, { display: 'none' })
-                .set(gbscreenmax, { display: 'block' })
+            // wipe UP to cover the screen
+            .to(
+              wipe,
+              {
+                scaleY: 1,
+                duration: 0.5,
+                ease: "power2.inOut",
+              },
+              "-=0.2"
+            ) // Overlap with fade out slightly
 
-                 .to(wipehorizontal, {
-                    scaleX: 0,
-                    duration: 0.5,
-                    ease: "power2.inOut"
-                });
+            // once screen is black, swap content
+            .set(introContent, { display: "none" })
+            .set(sceneContainer, { display: "block" })
 
+            // play grid animation
+            .call(() => {
+              introTl.play();
+            })
 
-        })
+            // wipe down to reveal the new scene
+            .to(wipe, {
+              scaleY: 0,
+              duration: 0.5,
+              ease: "power2.inOut",
+            });
+        },
+        { once: true }
+      ); // ensures the button can only be clicked once
+
+      function goToProfileScene() {
+        const masterT2 = gsap.timeline();
+
+        masterT2
+          .to(sceneContainer, {
+            autoAlpha: 0,
+            duration: 0.5,
+          })
+          .to(
+            wipehorizontal,
+            {
+              scaleX: 1,
+              duration: 0.5,
+              ease: "power2.inOut",
+            },
+            "-=0.2"
+          ) // Overlap with fade out slightly
+
+          // once screen is black, swap content
+          .set(sceneContainer, { display: "none" })
+          .set(gbscreenmax, { display: "block" })
+
+          .to(wipehorizontal, {
+            scaleX: 0,
+            duration: 0.5,
+            ease: "power2.inOut",
+          });
+      }
+
+      function goToPhotoScene() {
+        // Placeholder for your teammate's Photomax scene.
+        // For now just log; they can swap this later.
+        console.log("Photomax scene not implemented yet.");
+      }
+
+      sceneSubTitle.addEventListener("click", goToPhotoScene);
+      profileSceneTitle.addEventListener("click", goToProfileScene);
+
+      // === PROFILE CARD LOGIC ===
+
+      const handleInput = document.getElementById("profileHandle");
+      const taglineInput = document.getElementById("profileTagline");
+      const moodSelect = document.getElementById("profileMood");
+      const eraSelect = document.getElementById("profileEra");
+      const contactInput = document.getElementById("profileContact");
+
+      const handlePreview = document.getElementById("profileHandlePreview");
+      const taglinePreview = document.getElementById("profileTaglinePreview");
+      const moodTag = document.getElementById("profileMoodTag");
+      const eraTag = document.getElementById("profileEraTag");
+      const contactPreview = document.getElementById("profileContactPreview");
+      const avatarInitial = document.getElementById("profileAvatarInitial");
+      const profileCard = document.getElementById("profileCard");
+
+      const styleRadios = document.querySelectorAll(
+        'input[name="profileStyle"]'
+      );
+
+      function updateProfilePreview() {
+        if (!handleInput) return;
+
+        const handle = handleInput.value.trim() || "guest_user";
+        const tagline =
+          taglineInput.value.trim() ||
+          "live from the retro web, brb customizing my profile";
+        const mood = moodSelect.value;
+        const era = eraSelect.value;
+        const contact = contactInput.value.trim() || "add a link or email";
+
+        handlePreview.textContent = "@" + handle;
+        taglinePreview.textContent = tagline;
+        moodTag.textContent = "mood: " + mood;
+        eraTag.textContent = "era: " + era;
+        contactPreview.textContent = contact;
+
+        avatarInitial.textContent = handle.charAt(0).toUpperCase() || "G";
+      }
+
+      function updateProfileStyle() {
+        if (!profileCard) return;
+
+        const selected = document.querySelector(
+          'input[name="profileStyle"]:checked'
+        );
+        const style = selected ? selected.value : "retro";
+        profileCard.classList.remove(
+          "profile-card-retro",
+          "profile-card-modern"
+        );
+        profileCard.classList.add(
+          style === "modern" ? "profile-card-modern" : "profile-card-retro"
+        );
+      }
+
+      if (handleInput) {
+        [
+          handleInput,
+          taglineInput,
+          moodSelect,
+          eraSelect,
+          contactInput,
+        ].forEach((el) => {
+          el.addEventListener("input", updateProfilePreview);
+          el.addEventListener("change", updateProfilePreview);
+        });
+
+        styleRadios.forEach((radio) =>
+          radio.addEventListener("change", updateProfileStyle)
+        );
+
+        // initial render for profile scene
+        updateProfilePreview();
+        updateProfileStyle();
+      }
+
+      // signature copy logic
+      const copyBtn = document.getElementById("copySignature");
+      const signatureOutput = document.getElementById("signatureOutput");
+
+      function buildSignatureText() {
+        const handle = (handleInput.value.trim() || "guest_user").toLowerCase();
+        const mood = moodSelect.value;
+        const era = eraSelect.value;
+        const contact = contactInput.value.trim() || "add a link or email";
+
+        return (
+          "@" +
+          handle +
+          " · mood: " +
+          mood +
+          " · era: " +
+          era +
+          " · contact: " +
+          contact
+        );
+      }
+
+      if (copyBtn) {
+        copyBtn.addEventListener("click", () => {
+          const text = buildSignatureText();
+          signatureOutput.value = text;
+
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).catch(() => {});
+          } else {
+            signatureOutput.select();
+            document.execCommand("copy");
+          }
+        });
+      }
+
+      // shareable link generation
+      const generateLinkBtn = document.getElementById("generateLink");
+      const shareLinkOutput = document.getElementById("shareLinkOutput");
+
+      function getProfileData() {
+        const handle = handleInput.value.trim() || "guest_user";
+        const tagline =
+          taglineInput.value.trim() ||
+          "live from the retro web, brb customizing my profile";
+        const mood = moodSelect.value;
+        const era = eraSelect.value;
+        const contact = contactInput.value.trim() || "";
+
+        const selected = document.querySelector(
+          'input[name="profileStyle"]:checked'
+        );
+        const style = selected ? selected.value : "retro";
+
+        return {
+          handle,
+          tagline,
+          mood,
+          era,
+          style,
+          contact,
+        };
+      }
+
+      if (generateLinkBtn) {
+        generateLinkBtn.addEventListener("click", () => {
+          try {
+            const profile = getProfileData();
+            const json = JSON.stringify(profile);
+            const encoded = btoa(unescape(encodeURIComponent(json)));
+
+            const url = `${window.location.origin}${
+              window.location.pathname
+            }?card=${encodeURIComponent(encoded)}`;
+
+            shareLinkOutput.value = url;
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(url).catch(() => {});
+            }
+          } catch (e) {
+            console.error("Failed to generate link", e);
+          }
+        });
+      }
+
+      // load card from URL if present
+      function loadCardFromUrlIfPresent() {
+        const params = new URLSearchParams(window.location.search);
+        const encoded = params.get("card");
+        if (!encoded) return;
+
+        try {
+          const json = decodeURIComponent(escape(atob(encoded)));
+          const data = JSON.parse(json);
+
+          if (!handleInput) return;
+
+          handleInput.value = data.handle || "";
+          taglineInput.value = data.tagline || "";
+          moodSelect.value = data.mood || "chill";
+          eraSelect.value = data.era || "Y2K";
+          contactInput.value = data.contact || "";
+
+          const style = data.style || "retro";
+          const radioToCheck = document.querySelector(
+            `input[name="profileStyle"][value="${style}"]`
+          );
+          if (radioToCheck) {
+            radioToCheck.checked = true;
+          }
+
+          updateProfilePreview();
+          updateProfileStyle();
+
+          // show profile scene directly, hide others
+          introContent.style.display = "none";
+          sceneContainer.style.display = "none";
+          gbscreenmax.style.display = "block";
+        } catch (e) {
+          console.error("Failed to load card from URL", e);
+        }
+      }
+
+      loadCardFromUrlIfPresent();
+
+      // back/home button from ProfileMax to main scene
+      const backBtn = document.getElementById("backToHome");
+      if (backBtn) {
+        backBtn.addEventListener("click", () => {
+          // hide ProfileMax scene
+          gbscreenmax.style.display = "none";
+
+          // show main LIFE MAXER scene again
+          sceneContainer.style.display = "block";
+          sceneContainer.style.opacity = 1;
+          sceneContainer.style.visibility = "visible";
+        });
+      }
     </script>
-
-</body>
+  </body>
 </html>

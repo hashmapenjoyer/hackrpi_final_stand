@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
@@ -53,7 +54,8 @@ body, html {
   background-color: #111; /* Fallback for grid */
 }
 
-#sky, #gridContainer {
+#sky,
+#gridContainer {
   position: absolute;
   width: 100%;
   left: 0;
@@ -88,23 +90,16 @@ body, html {
   z-index: 2; /* in front of sky (1) */
   user-select: none;
 
-  font-family: 'Press Start 2P', cursive;
+  font-family: "Press Start 2P", cursive;
   font-size: 6vw;
-  color: #FF00FF;
+  color: #ff00ff;
   letter-spacing: 0.5vw;
 
   /* 3D blocky effect */
   text-shadow:
-    /* bright glow */
-    0 0 8px #FF00FF,
-    0 0 12px #FF00FF,
-    
-    /* 3D extrusion (darker, offset shadow) */
-    1px 1px 0 #c700c7,
-    2px 2px 0 #c700c7,
-    3px 3px 0 #c700c7,
-    4px 4px 0 #c700c7,
-    5px 5px 0 #c700c7,
+    /* bright glow */ 0 0 8px #ff00ff, 0 0 12px #ff00ff,
+    /* 3D extrusion (darker, offset shadow) */ 1px 1px 0 #c700c7,
+    2px 2px 0 #c700c7, 3px 3px 0 #c700c7, 4px 4px 0 #c700c7, 5px 5px 0 #c700c7,
     6px 6px 0 #c700c7;
 
   /* start hidden for animation */
@@ -113,41 +108,59 @@ body, html {
 }
 
 #sceneSubTitle {
-  position: absolute;
-  top: 30%;
-  left: 10%;
-  width: 100%;
-  text-align: left;
-  z-index: 2; /* in front of sky (1) */
-
   /* make the button look like plain text */
   border: none;
   background: none;
   padding: 0;
   cursor: pointer;
 
-  font-family: 'Press Start 2P', cursive;
+  font-family: "Press Start 2P", cursive;
   font-size: 3vw;
   color: #ff9d00;
   letter-spacing: 0.5vw;
 
   /* 3D blocky effect */
   text-shadow:
-    /* bright glow */
-    0 0 8px #ff9d00,
-    0 0 12px #ff9d00,
-    
-    /* 3D extrusion (darker, offset shadow) */
-    1px 1px 0 #2000b0,
-    2px 2px 0 #2000b0,
-    3px 3px 0 #2000b0,
-    4px 4px 0 #2000b0,
-    5px 5px 0 #2000b0,
+    /* bright glow */ 0 0 8px #ff9d00, 0 0 12px #ff9d00,
+    /* 3D extrusion (darker, offset shadow) */ 1px 1px 0 #2000b0,
+    2px 2px 0 #2000b0, 3px 3px 0 #2000b0, 4px 4px 0 #2000b0, 5px 5px 0 #2000b0,
     6px 6px 0 #2000b0;
 
   /* start hidden for animation */
   opacity: 0;
   transform: scale(0.8);
+}
+
+#profileSceneTitle {
+  /* make the button look like plain text */
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+
+  font-family: "Press Start 2P", cursive;
+  font-size: 3vw;
+  color: #00faff;
+  letter-spacing: 0.5vw;
+
+  /* 3D blocky effect, retrowave cyan glow */
+  text-shadow: 0 0 8px #00faff, 0 0 12px #00faff, 1px 1px 0 #2000b0,
+    2px 2px 0 #2000b0, 3px 3px 0 #2000b0, 4px 4px 0 #2000b0, 5px 5px 0 #2000b0,
+    6px 6px 0 #2000b0;
+
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+#sceneButtonRow {
+  position: absolute;
+  top: 30%; /* same vertical position your Photomax had */
+  left: 10%;
+  width: 80%;
+  z-index: 2;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
 }
 
 #clearAll {
@@ -161,47 +174,305 @@ body, html {
 }
 
 #gbscreenmax {
-  position: relative;        /* so the button can be positioned over the h1 */
-  display: inline-block;     /* shrink to fit content (optional) */
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(
+    circle at top,
+    #6d02c3 0,
+    #292651 40%,
+    #000000 85%
+  );
+  color: #f9fafb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Inter", sans-serif;
+  box-sizing: border-box;
+  display: none; /* JS will set to block when active */
+  padding: 32px;
 }
 
-/* Invisible overlay button */
-#subtitleButton {
-  position: absolute;
-  inset: 0;
-  border: none;
-  background: none;
-  padding: 0;
+.profile-layout {
+  display: flex;
+  gap: 2.5rem;
+  height: 100%;
+  box-sizing: border-box;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+  .profile-layout {
+    flex-direction: column;
+    padding: 24px;
+  }
+}
+
+.profile-form {
+  flex: 1 1 320px;
+  max-width: 420px;
+}
+
+.profile-heading {
+  font-family: "Press Start 2P", cursive;
+  font-size: 18px;
+  margin: 0 0 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ff64c9;
+}
+
+.profile-subtext {
+  font-size: 13px;
+  color: #e5e7eb;
+  max-width: 420px;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.profile-field {
+  margin-bottom: 12px;
+}
+
+.profile-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #9ca3af;
+  margin-bottom: 4px;
+}
+
+.profile-input {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid #4b5563;
+  background: rgba(15, 23, 42, 0.95);
+  color: #f9fafb;
+  padding: 7px 12px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.profile-input::placeholder {
+  color: #9ca3af;
+}
+
+.profile-input:focus {
+  outline: none;
+  border-color: #ff64c9;
+  box-shadow: 0 0 0 1px rgba(255, 100, 201, 0.7);
+}
+
+.profile-row {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .profile-row {
+    flex-direction: column;
+  }
+}
+
+.profile-style-options {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.profile-style-options input {
+  margin-right: 4px;
+}
+
+.profile-export {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-copy-btn {
+  align-self: flex-start;
+  border-radius: 999px;
+  border: 1px solid #ff64c9;
+  background: radial-gradient(circle at top, #f6019d, #6d02c3);
+  color: #fdf2ff;
+  font-size: 12px;
+  padding: 6px 12px;
   cursor: pointer;
 }
 
+.profile-copy-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
 
+.profile-signature {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #4b5563;
+  background: rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
+  font-size: 12px;
+  padding: 6px 8px;
+  resize: none;
+  box-sizing: border-box;
+}
+
+/* PROFILE PREVIEW CARD */
+
+.profile-preview {
+  flex: 1 1 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 20px;
+  padding: 18px 20px;
+  box-sizing: border-box;
+  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
+}
+
+.profile-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.9);
+}
+
+/* retro style */
+.profile-card-retro {
+  background: radial-gradient(
+    circle at top left,
+    #200d3a 0,
+    #2e4770 50%,
+    #000000 90%
+  );
+  border: 1px solid #ff64c9;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.85);
+}
+
+/* modern style */
+.profile-card-modern {
+  background: rgba(3, 22, 52, 0.88);
+  border: 1px solid rgba(104, 250, 255, 0.7);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.9);
+}
+
+.profile-card-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profile-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background: conic-gradient(
+    from 200deg,
+    #f6019d,
+    #ff64c9,
+    #68faff,
+    #035ee8,
+    #f6019d
+  );
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-avatar span {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: #020617;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Press Start 2P", cursive;
+  font-size: 16px;
+}
+
+.profile-handle {
+  font-family: "Press Start 2P", cursive;
+  font-size: 12px;
+}
+
+.profile-tagline {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.profile-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 10px;
+}
+
+.profile-tag {
+  font-size: 11px;
+  border-radius: 999px;
+  padding: 2px 8px;
+  border: 1px solid rgba(104, 250, 255, 0.7);
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.95),
+    rgba(46, 71, 112, 0.9)
+  );
+}
+
+.profile-contact-row {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  font-size: 11px;
+}
+
+.profile-contact-label {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #9ca3af;
+}
+
+.profile-contact-text {
+  font-size: 12px;
+}
+
+/* === Retrowave grid tiles === */
 
 .retrowave-tile {
+  fill: transparent;
+  stroke: none;
+  cursor: pointer;
   transition: all 0.3s ease;
+  pointer-events: auto;
 }
 
 .tile-selected {
-  fill: rgba(0, 179, 255, 0.574) !important;
+  fill: rgba(0, 179, 255, 0.58) !important;
   stroke: #00faff !important;
   stroke-width: 2px !important;
-  filter:
-    drop-shadow(0 0 6px #FF00FF)
-    drop-shadow(0 0 10px #00faff);
+  filter: drop-shadow(0 0 6px #ff00ff) drop-shadow(0 0 10px #00faff);
   animation: tilePulse 2s ease-in-out infinite alternate;
 }
 
 @keyframes tilePulse {
   0% {
     stroke-width: 1px;
-    filter: 
-      drop-shadow(0 0 4px #FF00FF)
-      drop-shadow(0 0 8px #00faff);
+    filter: drop-shadow(0 0 4px #ff00ff) drop-shadow(0 0 8px #00faff);
   }
   100% {
     stroke-width: 3px;
-    filter: 
-      drop-shadow(0 0 10px #FF00FF)
-      drop-shadow(0 0 16px #00faff);
+    filter: drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 16px #00faff);
   }
 }
